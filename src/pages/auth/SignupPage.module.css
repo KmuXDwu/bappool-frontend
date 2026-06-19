@@ -1,0 +1,336 @@
+.container {
+  width: 390px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 24px;
+  box-sizing: border-box;
+  position: relative;
+    
+}
+
+/* 헤더 */
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-top: 20px;
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* 진행바 */
+
+.progressBarWrap {
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+.progressBar {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 999px;
+}
+
+.progress {
+  height: 100%;
+  background: #f4b24f;
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+.progressCharacter {
+  position: absolute;
+  top: -28px;
+  width: 60px;
+  height: 60px;
+
+  transform: translateX(-50%);
+  transition: 0.3s;
+}
+/* 제목 */
+
+.stepTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* 입력 */
+
+.input {
+  width: 100%;
+  height: 44px;
+
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  background: white;
+}
+
+.input::placeholder {
+  color: #b0b0b0;
+}
+
+.sendButton {
+  width: 100%;
+  height: 48px;
+
+  margin-top: 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #f4b24f;
+  color: white;
+  font-weight: 600;
+}
+
+.verifyButtons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.verifyButtons button {
+  flex: 1;
+
+  height: 44px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #f4b24f;
+  color: white;
+}
+
+.verifySection {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inlineInput {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.inlineInput .input {
+  flex: 1;
+}
+
+.inlineButton {
+  flex-shrink: 0;
+
+  width: 88px;
+  height: 44px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #f4b24f;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.inlineButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.resendLink {
+  margin-top: 12px;
+
+  border: none;
+  background: none;
+
+  padding: 0;
+
+  color: #888;
+  font-size: 14px;
+
+  text-decoration: underline;
+
+  cursor: pointer;
+}
+
+/* 학년 */
+
+.gradeContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gradeButton {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: white;
+}
+
+.selected {
+  background: #f4b24f !important;
+  color: white !important;
+  border: 1px solid #f4b24f !important;
+}
+
+/* 상태 */
+
+.statusContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.statusButton {
+  flex: 1;
+  height: 42px;
+
+  border-radius: 10px;
+  border: 1px solid #ddd;
+
+  background: white;
+}
+
+/* 관심사 */
+
+.interestContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.interestButton {
+  border: 1px solid #ddd;
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 8px 14px;
+}
+
+/* 업로드 */
+
+.uploadBox {
+  width: 100%;
+  height: 100px;
+
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: white;
+}
+
+/* 역할 */
+
+.roleContainer {
+  display: flex;
+  gap: 12px;
+  margin-top: 80px;
+}
+
+.roleCard {
+  flex: 1;
+  min-height: 200px;   /* ⭐ 핵심 */
+  border-radius: 12px;
+
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  border: 1px solid #f4b24f;
+
+  background: linear-gradient(
+    to bottom,
+    #f4b24f 0%,
+    #ffffff 70%
+  );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* ⭐ 균형 */
+}
+
+.roleCard p {
+  font-size: 10px;   /* 원하는 크기로 조절 */
+  margin: 8px 0 0;
+  color: #333;
+  text-align: center;
+}
+
+.roleCard img {
+  width: 180px;
+  height: 180px;
+    flex-shrink: 0;   /* ⭐ 이거 중요 */
+  object-fit: contain;
+
+  margin-bottom: 10px;
+  flex-shrink: 0;
+
+  /* 위치 조절 핵심 */
+  transform: translate(0px, 0px);
+}
+
+
+
+/* 다음 버튼 */
+
+.nextButton {
+  position: fixed;
+
+  bottom: 24px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 320px;
+  height: 52px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #f4b24f;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.container {
+  padding-bottom: 100px;
+}
