@@ -185,45 +185,58 @@ export default function MyPage({ user = dummyUser }) {
   );
 }
 
-function BottomNav() {
+export function BottomNav() {
   return (
     <nav className={styles.bottomNavWrap}>
-      <button type="button" className={styles.centerButton} aria-label="홈">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
-          <path d="M3 12h18a9 9 0 0 1-18 0Z" stroke="#F5A623" strokeWidth="2" />
-          <path d="M12 12V7" stroke="#F5A623" strokeWidth="2" />
-          <circle cx="12" cy="10" r="1" fill="#F5A623" />
-          <circle cx="9" cy="10" r="1" fill="#F5A623" />
-          <circle cx="15" cy="10" r="1" fill="#F5A623" />
+      {/* 1. 피그마 시안의 굴곡을 완벽하게 재현하는 배경 SVG 레이어 */}
+      <div className={styles.navBgLayer}>
+        <svg viewBox="0 0 430 75" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+          {/* 가운데가 둥글게 파인 하단바 형태 패스 */}
+          <path d="M0 24C0 10.7452 10.7452 0 24 0H165C178.5 0 186.5 7.5 192 14C198.5 21.5 204 25 215 25C226 25 231.5 21.5 238 14C243.5 7.5 251.5 0 265 0H406C419.255 0 430 10.7452 430 24V75H0V24Z" fill="#FFA826"/>
         </svg>
+      </div>
+
+      {/* 2. 중앙 밥약 버튼 (시안처럼 주황색 그라데이션+보더 링 장식) */}
+      <button type="button" className={styles.centerButton} aria-label="홈">
+        <div className={styles.centerButtonInner}>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
+            <path d="M3 13h18a9 9 0 0 1-18 0Z" stroke="#FFA826" strokeWidth="2.2" strokeLinejoin="round" />
+            <path d="M12 13V8" stroke="#FFA826" strokeWidth="2.2" strokeLinecap="round" />
+            <circle cx="12" cy="11" r="0.8" fill="#FFA826"/>
+            <circle cx="9" cy="11" r="0.8" fill="#FFA826"/>
+            <circle cx="15" cy="11" r="0.8" fill="#FFA826"/>
+          </svg>
+        </div>
       </button>
 
-      <div className={styles.bottomNav}>
-        <button type="button" className={styles.navItem}>
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" />
+      {/* 3. 실제 아이콘들이 배치되는 레이어 */}
+      <div className={styles.bottomNavContent}>
+        {/* 왼쪽 아이콘 군단 */}
+        <button type="button" className={styles.navItem} aria-label="지도">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" strokeLinejoin="round" />
             <path d="M9 4v14M15 6v14" />
           </svg>
         </button>
-
-        <button type="button" className={styles.navItem}>
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        <button type="button" className={styles.navItem} aria-label="채팅">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" strokeLinejoin="round" />
           </svg>
         </button>
-
+        
+        {/* 가운데 밥그릇 공간 확보용 빈 블록 */}
         <div className={styles.navItemSpacer} />
 
-        <button type="button" className={styles.navItem}>
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
+        {/* 오른쪽 아이콘 군단 */}
+        <button type="button" className={styles.navItem} aria-label="검색">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m21 21-4.3-4.3" strokeLinecap="round" />
           </svg>
         </button>
-
-        <button type="button" className={styles.navItem}>
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z" />
+        <button type="button" className={styles.navItem} aria-label="메뉴책">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
