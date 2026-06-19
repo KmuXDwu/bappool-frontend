@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './MyPage.module.css';
 
 const dummyUser = {
@@ -186,60 +187,72 @@ export default function MyPage({ user = dummyUser }) {
 }
 
 export function BottomNav() {
-  return (
-    <nav className={styles.bottomNavWrap}>
-      {/* 1. 피그마 시안의 굴곡을 완벽하게 재현하는 배경 SVG 레이어 */}
-      <div className={styles.navBgLayer}>
-        <svg viewBox="0 0 430 75" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
-          {/* 가운데가 둥글게 파인 하단바 형태 패스 */}
-          <path d="M0 24C0 10.7452 10.7452 0 24 0H165C178.5 0 186.5 7.5 192 14C198.5 21.5 204 25 215 25C226 25 231.5 21.5 238 14C243.5 7.5 251.5 0 265 0H406C419.255 0 430 10.7452 430 24V75H0V24Z" fill="#FFA826"/>
-        </svg>
-      </div>
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-      {/* 2. 중앙 밥약 버튼 (시안처럼 주황색 그라데이션+보더 링 장식) */}
-      <button type="button" className={styles.centerButton} aria-label="홈">
-        <div className={styles.centerButtonInner}>
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none">
-            <path d="M3 13h18a9 9 0 0 1-18 0Z" stroke="#FFA826" strokeWidth="2.2" strokeLinejoin="round" />
-            <path d="M12 13V8" stroke="#FFA826" strokeWidth="2.2" strokeLinecap="round" />
-            <circle cx="12" cy="11" r="0.8" fill="#FFA826"/>
-            <circle cx="9" cy="11" r="0.8" fill="#FFA826"/>
-            <circle cx="15" cy="11" r="0.8" fill="#FFA826"/>
-          </svg>
-        </div>
+  // 작성자님 프로젝트의 실제 src 경로 매칭
+  const safeImages = {
+    navBarBg: "/src/assets/images/subtract.svg",       // 하단바 곡선 배경
+    navMap: "/src/assets/images/map.svg",             // 1. 맨 왼쪽 지도
+    navChat: "/src/assets/images/chat.svg",           // 2. 왼쪽에서 두번째 채팅
+    navBapBg: "/src/assets/images/bap_circle_bg.svg",  // 3. 가운데 버튼 배경
+    navBap: "/src/assets/images/bap.svg",             // 3. 가운데 버튼 아이콘 (마이페이지로 사용!)
+    navFind: "/src/assets/images/find.svg",           // 4. 오른쪽에서 두번째 돋보기 (매칭목록)
+    navKnowledge: "/src/assets/images/knowledge.svg"  // 5. 맨 오른쪽 가이드북
+  };
+
+  return (
+    <nav className="bottom-nav" aria-label="하단 메뉴">
+      {/* 하단바 배경 그래픽 */}
+      <img className="bottom-nav-bg" src={safeImages.navBarBg} alt="" />
+
+      {/* 1. 맨 왼쪽: 지도 */}
+      <img 
+        className={`bottom-nav-icon ${currentPath === "/map" ? "active" : ""}`} 
+        src={safeImages.navMap} 
+        alt="지도" 
+        onClick={() => navigate("/map")}
+        style={{ cursor: "pointer" }}
+      />
+
+      {/* 2. 그 옆: 채팅 */}
+      <img 
+        className={`bottom-nav-icon ${currentPath === "/chat" ? "active" : ""}`} 
+        src={safeImages.navChat} 
+        alt="채팅" 
+        onClick={() => navigate("/chat")}
+        style={{ cursor: "pointer" }}
+      />
+
+      {/* 3. ⭐ 가운데 밥그릇 버튼: 마이페이지로 순간이동! */}
+      <button 
+        className="home-bowl" 
+        type="button" 
+        aria-label="마이페이지 홈"
+        onClick={() => navigate("/mypage")}
+      >
+        <img className="home-bowl-bg" src={safeImages.navBapBg} alt="" />
+        <img className="home-bowl-icon" src={safeImages.navBap} alt="" />
       </button>
 
-      {/* 3. 실제 아이콘들이 배치되는 레이어 */}
-      <div className={styles.bottomNavContent}>
-        {/* 왼쪽 아이콘 군단 */}
-        <button type="button" className={styles.navItem} aria-label="지도">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" strokeLinejoin="round" />
-            <path d="M9 4v14M15 6v14" />
-          </svg>
-        </button>
-        <button type="button" className={styles.navItem} aria-label="채팅">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" strokeLinejoin="round" />
-          </svg>
-        </button>
-        
-        {/* 가운데 밥그릇 공간 확보용 빈 블록 */}
-        <div className={styles.navItemSpacer} />
+      {/* 4. 그 옆 돋보기: 밥약 매칭 목록 */}
+      <img 
+        className={`bottom-nav-icon ${currentPath === "/matching" ? "active" : ""}`} 
+        src={safeImages.navFind} 
+        alt="밥약 매칭" 
+        onClick={() => navigate("/matching")}
+        style={{ cursor: "pointer" }}
+      />
 
-        {/* 오른쪽 아이콘 군단 */}
-        <button type="button" className={styles.navItem} aria-label="검색">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <circle cx="11" cy="11" r="7" />
-            <path d="m21 21-4.3-4.3" strokeLinecap="round" />
-          </svg>
-        </button>
-        <button type="button" className={styles.navItem} aria-label="메뉴책">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
+      {/* 5. 맨 오른쪽: 새내기 밥약 가이드북 */}
+      <img 
+        className={`bottom-nav-icon ${currentPath === "/guide" ? "active" : ""}`} 
+        src={safeImages.navKnowledge} 
+        alt="밥약 가이드북" 
+        onClick={() => navigate("/guide")}
+        style={{ cursor: "pointer" }}
+      />
     </nav>
   );
 }
