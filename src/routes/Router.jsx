@@ -6,6 +6,7 @@ import MatchListPage from "../pages/matching/MatchListPage";
 import CompletePage from "../pages/matching/CompletePage";
 import ChatPage from "../pages/chat/ChatPage";
 import GuidePage from "../pages/guide/GuidePage";
+import MapPage from "../pages/map/MapPage";
 
 const IMAGES = {
   profileSmall: "/images/profile1.svg",
@@ -115,6 +116,7 @@ function Router() {
           } 
         />
         <Route path="/guide" element={<GuidePage />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,50 @@
+/* LoginPage.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.logoImage {
+  max-width: 150px; /* Adjust size as needed */
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loginButton,
+.signupButton {
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loginButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.signupButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+}
