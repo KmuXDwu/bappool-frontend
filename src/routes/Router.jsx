@@ -6,6 +6,7 @@ import MatchListPage from "../pages/matching/MatchListPage";
 import CompletePage from "../pages/matching/CompletePage";
 import ChatPage from "../pages/chat/ChatPage";
 import GuidePage from "../pages/guide/GuidePage";
+import MapPage from "../pages/map/MapPage";
 import ProfileDetailPage from "../pages/matching/ProfileDetailPage";
 
 const IMAGES = {
@@ -94,6 +95,7 @@ function Router() {
         <Route path="/complete" element={<CompletePage />} />
         
         <Route path="/guide" element={<GuidePage />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
     </BrowserRouter>
   );
