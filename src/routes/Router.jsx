@@ -14,7 +14,8 @@ const IMAGES = {
   sad: "/images/profile3_sad.svg",
   profileD: "/images/profile4_D.svg",
   profileK: "/images/profile4_K.svg",
-  chatRiceBack: "/images/bap_back.svg",
+  chatRiceBack: "/src/assets/images/bap_back.svg",
+  profileSmall: "/src/assets/images/profile1.svg",
 
   navMap: "/images/map.svg",
   navChat: "/images/chat.svg",
@@ -76,23 +77,20 @@ function Router() {
         <Route path="/mypage" element={<MyPage />} />
 
         {/* 1. 밥약 잡기 목록 (불필요하고 버그를 내던온지운 onSelectPerson 완전 제거) */}
-        <Route 
-          path="/matching" 
-          element={<MatchListPage people={PEOPLE} />} 
+        <Route
+          path="/matching"
+          element={<MatchListPage people={PEOPLE} images={IMAGES} />}
         />
-        
+
         {/* 2. 상세 프로필 페이지 등록 */}
         <Route path="/detail" element={<ProfileDetailPage />} />
 
         {/* 3. 채팅방 화면 (불필요한 새로고침 제거) */}
-        <Route 
-          path="/chat" 
-          element={<ChatPage partner={PEOPLE[1]} images={IMAGES} />} 
-        />
+        <Route path="/chat" element={<ChatPage />} />
 
         {/* 4. 밥약 신청 완료 화면 */}
         <Route path="/complete" element={<CompletePage />} />
-        
+
         <Route path="/guide" element={<GuidePage />} />
       </Routes>
     </BrowserRouter>
