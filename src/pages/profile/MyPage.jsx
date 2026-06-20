@@ -2,10 +2,12 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './MyPage.module.css';
 
+// 1. 초기 덤 데이터 (나중에 이 구조대로 API 데이터를 받으시면 됩니다)
 const dummyUser = {
   name: '이연주',
+  university: '국민대',      // '국민대' 또는 '동덕여대'
   studentId: '26학번',
-  role: 'freshman',
+  role: 'freshman',         // 'freshman'(후배) 또는 'senior'(선배)
   department: '국어국문학과',
   mbti: 'ENFJ',
   hobbies: ['뜨개질', '노래 부르기'],
@@ -13,22 +15,49 @@ const dummyUser = {
   interests: ['학교 생활', '교환학생 / 대외활동'],
 };
 
+// 2. 🎨 자동 매칭될 학교별 캐릭터 이미지 매핑 테이블
+const CHARACTER_IMAGES = {
+  '국민대-senior': '/src/assets/images/kmu_senior.png',   
+  '국민대-freshman': '/src/assets/images/kmu_freshman.png', 
+  '동덕여대-senior': '/src/assets/images/dwu_senior.png', 
+  '동덕여대-freshman': '/src/assets/images/dwu_freshman.png', 
+};
+
 const PAGE = {
   PROFILE: 0,
   TIMETABLE: 1,
 };
 
-export default function MyPage({ user = dummyUser }) {
+export default function MyPage({ initialUser = dummyUser }) {
   const [currentPage, setCurrentPage] = useState(PAGE.PROFILE);
   const [timetableImage, setTimetableImage] = useState(null);
-  const fileInputRef = useRef(null);
+  
+  // 📝 프로필 수정 관련 상태들
+  const [user, setUser] = useState(initialUser);
+  const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
+  const [editedName, setEditedName] = useState(user.name);
+  const [editedDept, setEditedDept] = useState(user.department);
+  const [editedMbti, setEditedMbti] = useState(user.mbti);
 
+  const fileInputRef = useRef(null);
   const containerRef = useRef(null);
+  
+  // 드래그(슬라이드) 판별용 Refs
   const isDragging = useRef(false);
   const startX = useRef(0);
   const currentTranslate = useRef(0);
+  const dragMoved = useRef(false); // 🔥 진짜 드래그를 했는지 판별하는 변수 (클릭 씹힘 방지)
 
-  const handleSelectFile = () => fileInputRef.current?.click();
+  // 🔄 정보 기반 캐릭터 자동 고정 계산
+  const characterKey = `${user.university || '국민대'}-${user.role || 'freshman'}`;
+  const currentCharacterImg = CHARACTER_IMAGES[characterKey];
+
+  // 📁 시간표 파일 업로드 처리
+  const handleSelectFile = (e) => {
+    e.stopPropagation(); // 이벤트 전파 방지
+    fileInputRef.current?.click();
+  };
+
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -39,12 +68,31 @@ export default function MyPage({ user = dummyUser }) {
     event.target.value = '';
   };
 
+  // 💾 프로필 수정 완료 (저장) 버튼 토글
+  const handleEditToggle = () => {
+    if (isEditing) {
+      // 저장할 때 데이터 업데이트 (나중에 여기에 API PATCH 요청을 넣으면 됩니다)
+      setUser({
+        ...user,
+        name: editedName,
+        department: editedDept,
+        mbti: editedMbti,
+      });
+    }
+    setIsEditing(!isEditing);
+  };
+
+  // 🖱️ 드래그앤드롭 슬라이더 로직 (버그 원천 차단 버전)
   const getPositionX = (event) => {
     return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
   };
 
   const handleDragStart = (e) => {
+    // input창이나 button 내부 요소를 클릭했을 때는 드래그 발동 안 되게 차단
+    if (e.target.tagName === 'INPUT' || e.target.closest('button')) return;
+    
     isDragging.current = true;
+    dragMoved.current = false;
     startX.current = getPositionX(e);
     if (containerRef.current) {
       containerRef.current.style.transition = 'none';
@@ -56,6 +104,11 @@ export default function MyPage({ user = dummyUser }) {
     const currentX = getPositionX(e);
     const diff = currentX - startX.current;
     
+    // 유저가 5픽셀 이상 마우스를 움직였다면 클릭이 아니라 '드래그'로 판별
+    if (Math.abs(diff) > 5) {
+      dragMoved.current = true;
+    }
+
     const width = containerRef.current?.offsetWidth || 0;
     const currentPosition = -currentPage * (width + 20); 
     currentTranslate.current = currentPosition + diff;
@@ -65,19 +118,24 @@ export default function MyPage({ user = dummyUser }) {
     }
   };
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (e) => {
     if (!isDragging.current) return;
     isDragging.current = false;
     
     const width = containerRef.current?.offsetWidth || 0;
     const movedBy = currentTranslate.current - (-currentPage * (width + 20));
 
-    if (movedBy < -50 && currentPage === PAGE.PROFILE) {
+    // 드래그가 크게 일어났을 때만 페이지 전환
+    if (dragMoved.current && movedBy < -50 && currentPage === PAGE.PROFILE) {
       setCurrentPage(PAGE.TIMETABLE);
-    } else if (movedBy > 50 && currentPage === PAGE.TIMETABLE) {
+    } else if (dragMoved.current && movedBy > 50 && currentPage === PAGE.TIMETABLE) {
       setCurrentPage(PAGE.PROFILE);
     } else {
-      setCurrentPage(currentPage);
+      // 제자리 슬라이드 리셋
+      if (containerRef.current) {
+        containerRef.current.style.transition = 'transform 0.3s ease-out';
+        containerRef.current.style.transform = `translateX(${-currentPage * (width + 20)}px)`;
+      }
     }
   };
 
@@ -91,14 +149,14 @@ export default function MyPage({ user = dummyUser }) {
 
   return (
     <div className={styles.page}>
-      {/* 상단 프로필 수정 바 */}
+      {/* 💾 상단 프로필 수정/저장 바 */}
       <header className={styles.topBar}>
-        <button type="button" className={styles.editButton}>
-          프로필 수정
+        <button type="button" className={styles.editButton} onClick={handleEditToggle}>
+          {isEditing ? '저장 완료' : '프로필 수정'}
         </button>
       </header>
 
-      {/* 📌 카드가 아닌 상위 고정 영역으로 완전히 탈출한 인디케이터 */}
+      {/* 인디케이터 */}
       <div className={styles.indicator}>
         <span className={`${styles.dot} ${currentPage === PAGE.PROFILE ? styles.dotActive : ''}`} />
         <span className={`${styles.dot} ${currentPage === PAGE.TIMETABLE ? styles.dotActive : ''}`} />
@@ -119,22 +177,56 @@ export default function MyPage({ user = dummyUser }) {
           
           {/* CARD 1: 프로필 카드 */}
           <section className={`${styles.card} ${styles.profileCard}`}>
+            
+            {/* 🔒 유저 정보를 받아 고정된 캐릭터 영역 */}
             <div className={styles.characterWrap}>
               <div className={styles.characterPlaceholder}>
-                <span className={styles.characterEmoji}>🐣</span>
+                {currentCharacterImg ? (
+                  <img src={currentCharacterImg} alt="나의 캐릭터" className={styles.characterImage} />
+                ) : (
+                  <span className={styles.characterEmoji}>🐣</span>
+                )}
               </div>
             </div>
 
             <div className={styles.nameBlock}>
-              <h1 className={styles.userName}>{user.name}</h1>
-              <p className={styles.userSub}>{user.studentId} 새내기</p>
+              {isEditing ? (
+                <input 
+                  type="text" 
+                  className={styles.editInputName} 
+                  value={editedName} 
+                  onChange={(e) => setEditedName(e.target.value)} 
+                />
+              ) : (
+                <h1 className={styles.userName}>{user.name}</h1>
+              )}
+              <p className={styles.userSub}>{user.studentId} {user.role === 'freshman' ? '새내기' : '선배'}</p>
             </div>
 
             <div className={styles.infoCard}>
               <p className={styles.infoTitle}>📌 나의 프로필</p>
               <ul className={styles.infoList}>
-                <li>학과 - {user.department}</li>
-                <li>MBTI - {user.mbti}</li>
+                <li>학교 - {user.university || '국민대'}</li>
+                <li>
+                  학과 - {isEditing ? (
+                    <input 
+                      type="text" 
+                      className={styles.editInputRow} 
+                      value={editedDept} 
+                      onChange={(e) => setEditedDept(e.target.value)} 
+                    />
+                  ) : user.department}
+                </li>
+                <li>
+                  MBTI - {isEditing ? (
+                    <input 
+                      type="text" 
+                      className={styles.editInputRow} 
+                      value={editedMbti} 
+                      onChange={(e) => setEditedMbti(e.target.value)} 
+                    />
+                  ) : user.mbti}
+                </li>
                 <li>취미 - {user.hobbies.join(', ')}</li>
                 <li>나이 - {user.age}</li>
               </ul>
@@ -158,6 +250,7 @@ export default function MyPage({ user = dummyUser }) {
           <section className={`${styles.card} ${styles.timetableCard}`}>
             <h2 className={styles.timetableTitle}>2026년 1학기 시간표</h2>
 
+            {/* 🔥 dragMoved 필터링 덕분에 이제 시원시원하게 클릭 작동함 */}
             <button type="button" className={styles.uploadArea} onClick={handleSelectFile}>
               {timetableImage ? (
                 <img src={timetableImage} alt="시간표" className={styles.timetablePreviewImg} />
@@ -191,23 +284,19 @@ export function BottomNav() {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // 작성자님 프로젝트의 실제 src 경로 매칭
   const safeImages = {
-    navBarBg: "/src/assets/images/subtract.svg",       // 하단바 곡선 배경
-    navMap: "/src/assets/images/map.svg",             // 1. 맨 왼쪽 지도
-    navChat: "/src/assets/images/chat.svg",           // 2. 왼쪽에서 두번째 채팅
-    navBapBg: "/src/assets/images/bap_circle_bg.svg",  // 3. 가운데 버튼 배경
-    navBap: "/src/assets/images/bap.svg",             // 3. 가운데 버튼 아이콘 (마이페이지로 사용!)
-    navFind: "/src/assets/images/find.svg",           // 4. 오른쪽에서 두번째 돋보기 (매칭목록)
-    navKnowledge: "/src/assets/images/knowledge.svg"  // 5. 맨 오른쪽 가이드북
+    navBarBg: "/src/assets/images/subtract.svg",       
+    navMap: "/src/assets/images/map.svg",             
+    navChat: "/src/assets/images/chat.svg",           
+    navBapBg: "/src/assets/images/bap_circle_bg.svg",  
+    navBap: "/src/assets/images/bap.svg",             
+    navFind: "/src/assets/images/find.svg",           
+    navKnowledge: "/src/assets/images/knowledge.svg"  
   };
 
   return (
     <nav className="bottom-nav" aria-label="하단 메뉴">
-      {/* 하단바 배경 그래픽 */}
       <img className="bottom-nav-bg" src={safeImages.navBarBg} alt="" />
-
-      {/* 1. 맨 왼쪽: 지도 */}
       <img 
         className={`bottom-nav-icon ${currentPath === "/map" ? "active" : ""}`} 
         src={safeImages.navMap} 
@@ -215,8 +304,6 @@ export function BottomNav() {
         onClick={() => navigate("/map")}
         style={{ cursor: "pointer" }}
       />
-
-      {/* 2. 그 옆: 채팅 */}
       <img 
         className={`bottom-nav-icon ${currentPath === "/chat" ? "active" : ""}`} 
         src={safeImages.navChat} 
@@ -224,8 +311,6 @@ export function BottomNav() {
         onClick={() => navigate("/chat")}
         style={{ cursor: "pointer" }}
       />
-
-      {/* 3. ⭐ 가운데 밥그릇 버튼: 마이페이지로 순간이동! */}
       <button 
         className="home-bowl" 
         type="button" 
@@ -235,8 +320,6 @@ export function BottomNav() {
         <img className="home-bowl-bg" src={safeImages.navBapBg} alt="" />
         <img className="home-bowl-icon" src={safeImages.navBap} alt="" />
       </button>
-
-      {/* 4. 그 옆 돋보기: 밥약 매칭 목록 */}
       <img 
         className={`bottom-nav-icon ${currentPath === "/matching" ? "active" : ""}`} 
         src={safeImages.navFind} 
@@ -244,8 +327,6 @@ export function BottomNav() {
         onClick={() => navigate("/matching")}
         style={{ cursor: "pointer" }}
       />
-
-      {/* 5. 맨 오른쪽: 새내기 밥약 가이드북 */}
       <img 
         className={`bottom-nav-icon ${currentPath === "/guide" ? "active" : ""}`} 
         src={safeImages.navKnowledge} 

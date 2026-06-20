@@ -40,7 +40,7 @@
 .sliderViewport {
   width: 100%;
   padding: 0 20px;
-  overflow: visible; /* 밖으로 삐져나오는 다음 카드 엿보기 효과 */
+  overflow: visible; /* 다음 카드 엿보기 효과 */
   cursor: grab;
 }
 
@@ -57,18 +57,18 @@
 
 .card {
   flex-shrink: 0;
-  width: 100%; /* 슬라이더 뷰포트 크기에 딱 맞춤 */
+  width: 100%;
   min-height: 550px;
   border-radius: 24px;
   padding: 20px 22px 26px;
-  background: #ffb338; /* 시안 주황 배경색 */
+  background: #ffb338;
   box-shadow: 0 10px 24px rgba(255, 168, 38, 0.2);
   position: relative;
   overflow: hidden;
   user-select: none;
 }
 
-/* ---------------------------------- 인디케이터 (캐릭터 위쪽 배치) ---------------------------------- */
+/* ---------------------------------- 인디케이터 ---------------------------------- */
 .indicator {
   display: flex;
   justify-content: center;
@@ -87,14 +87,18 @@
 
 .dotActive {
   width: 8px;
-  background: #524438; /* 활성화된 다크 브라운 인디케이터 */
+  background: #524438;
 }
 
-/* ---------------------------------- 프로필 카드 내부 UI ---------------------------------- */
+/* ---------------------------------- 프로필 카드 내부 UI + 캐릭터 연동 스타일 ---------------------------------- */
 .characterWrap {
+  position: relative;
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin: 0 auto 12px;
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
 }
 
 .characterPlaceholder {
@@ -105,12 +109,85 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* 이미지가 튀어나가지 않도록 동그랗게 컷 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.characterImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .characterEmoji {
   font-size: 64px;
 }
 
+.editBadge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+/* 🔥 캐릭터 선택 팝업창 레이아웃 */
+.characterSelector {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 14px;
+  margin: 10px auto 20px;
+  width: 100%;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.2s ease-out;
+  z-index: 10;
+  position: relative;
+}
+
+.selectorTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #634935;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.selectorGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.selectorTab {
+  background: #f7f7f7;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #4a3220;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.selectorTab.activeTab {
+  background: #ffebd2;
+  border-color: #ffa826;
+  color: #ffa826;
+  font-weight: 700;
+}
+
+/* ---------------------------------- 정보 및 텍스트 블록 ---------------------------------- */
 .nameBlock {
   text-align: center;
   margin-bottom: 20px;
@@ -131,7 +208,7 @@
 }
 
 .infoCard {
-  background: rgba(255, 255, 255, 0.85); /* 반투명 화이트 박스 */
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 14px;
@@ -178,7 +255,6 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.03);
 }
 
-/* 대학교 문양 백그라운드 데코레이션 효과 */
 .cardBgDeco {
   position: absolute;
   bottom: -30px;
@@ -190,7 +266,7 @@
   pointer-events: none;
 }
 
-/* ---------------------------------- 시간표 카드 내부 UI ---------------------------------- */
+/* ---------------------------------- 시간표 레이아웃 ---------------------------------- */
 .timetableTitle {
   margin: 0 0 16px;
   font-size: 18px;
@@ -237,98 +313,8 @@
   display: none;
 }
 
-/* ---------------------------------- 별도 컴포넌트용 하단 네비게이션 ---------------------------------- */
-/* ---------------------------------- 하단 네비게이션 고도화 (시안 싱크로율 100%) ---------------------------------- */
-.bottomNavWrap {
-  position: fixed;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 430px;
-  height: 84px; /* 파여진 구조와 튀어나온 버튼을 수용할 전체 높이 */
-  z-index: 100;
-  background: transparent;
-}
-
-/* 주황색 배경 그래픽 레이어 */
-.navBgLayer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 74px;
-  pointer-events: none; /* 클릭 이벤트 통과 */
-  filter: drop-shadow(0 -4px 12px rgba(255, 168, 38, 0.15)); /* 주황바 상단 은은한 그림자 */
-}
-
-/* 콘텐츠 아이콘 배치 레이어 */
-.bottomNavContent {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 62px; /* 아이콘들이 수평 정렬될 높이 규격 */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-}
-
-.navItem {
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff; /* 하얀색 아이콘 라인 */
-  cursor: pointer;
-  padding: 8px;
-  transition: transform 0.1s ease, opacity 0.1s ease;
-}
-
-.navItem:active {
-  transform: scale(0.9);
-  opacity: 0.8;
-}
-
-.navItemSpacer {
-  width: 72px; /* 파인 홈 부분에 아이콘이 침범하지 못하도록 벌려주는 공간 */
-}
-
-/* 중앙 밥약 버튼 (음각 원 한가운데 안착) */
-.centerButton {
-  position: absolute;
-  top: 0; /* 배경 레이어 곡선 파인 중심점에 정확히 맞춤 */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 110;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-  transition: transform 0.1s ease;
-}
-
-/* 버튼 내부 주황 그라데이션 링 감성 (시안 테두리 느낌 재현) */
-.centerButtonInner {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, #ffffff 0%, #fff6e9 100%);
-  border: 1.5px solid rgba(255, 168, 38, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.centerButton:active {
-  transform: translateX(-50%) scale(0.93);
+/* ---------------------------------- 애니메이션 ---------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
