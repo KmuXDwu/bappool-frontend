@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import LoginPage from "../pages/login/LoginPage";
 import SignupPage from "../pages/auth/SignupPage";
 import MyPage from "../pages/profile/MyPage";
 import MatchListPage from "../pages/matching/MatchListPage";
@@ -73,7 +74,8 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SignupPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/mypage" element={<MyPage />} />
 
         {/* 1. 밥약 잡기 목록 (불필요하고 버그를 내던온지운 onSelectPerson 완전 제거) */}

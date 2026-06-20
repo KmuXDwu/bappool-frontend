@@ -1,50 +1,175 @@
-/* LoginPage.module.css */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 100vh;
-  padding: 20px;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 40px 24px 60px 24px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* 상단 뒤로가기 헤더 */
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
 }
 
 .logoContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40px;
-}
-
-.logoImage {
-  max-width: 150px; /* Adjust size as needed */
-  margin-bottom: 10px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .title {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 38px;
+  font-weight: 800;
+  color: #ffa826;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+
+.logoImage {
+  width: 55%;
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #888888;
+  font-weight: 500;
+}
+
+/* 하단 콘텐츠 감싸는 영역 */
+.bottomSection {
+  width: 100%;
 }
 
 .buttonContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  width: 100%;
+  gap: 12px;
 }
 
-.loginButton,
-.signupButton {
-  padding: 10px 20px;
-  border-radius: 5px;
+/* 기본 로그인 & 회원가입 버튼 */
+.loginButton {
+  width: 100%;
+  height: 54px;
+  background-color: #ffa826;
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
 }
 
-.loginButton {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+.signupButton {
+  width: 100%;
+  height: 54px;
+  background-color: #fcfcfc;
+  color: #ffa826;
+  border: 2px solid #ffa826;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.signupButton {
-  background-color: #007bff;
-  color: #fff;
+/* 로그인 폼 입력창 구조 (Signup 스타일 이식) */
+.formContainer {
+  width: 100%;
+  text-align: left;
+}
+
+.stepTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.inlineInput {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.input {
+  flex: 1;
+  height: 50px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 15px;
+  background: #f9f9f9;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #ffa826;
+}
+
+.inlineButton {
+  width: 80px;
+  height: 50px;
+  background: #ffa826;
+  color: white;
   border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inlineButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.verifySection {
+  margin-top: 16px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.submitButton {
+  width: 100%;
+  height: 54px;
+  background-color: #ffa826;
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.submitButton:disabled {
+  background: #e5e5e5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
