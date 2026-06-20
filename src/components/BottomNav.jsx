@@ -51,7 +51,7 @@ function BottomNav({ images }) {
         <img className="home-bowl-icon" src={safeImages.navBap} alt="" />
       </button>
 
-      {/* 4. 그 옆 돋보기: 밥약 매칭 목록 */}
+      {/* 4. 그 옆 돋보기: 밥약 매칭 리스트 */}
       <img 
         className={`bottom-nav-icon ${currentPath === "/matching" ? "active" : ""}`} 
         src={safeImages.navFind} 

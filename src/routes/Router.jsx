@@ -6,6 +6,7 @@ import MatchListPage from "../pages/matching/MatchListPage";
 import CompletePage from "../pages/matching/CompletePage";
 import ChatPage from "../pages/chat/ChatPage";
 import GuidePage from "../pages/guide/GuidePage";
+import ProfileDetailPage from "../pages/matching/ProfileDetailPage";
 
 const IMAGES = {
   profileSmall: "/images/profile1.svg",
@@ -24,11 +25,11 @@ const IMAGES = {
   navKnowledge: "/images/knowledge.svg",
 };
 
+// 실명 가리기 전 원본 데이터를 들고 있도록 수정 (실명/마스킹 처리는 컴포넌트 내부에서 연산)
 const PEOPLE = [
   {
     id: 1,
-    name: "김*국",
-    fullName: "김종국",
+    name: "김종국",
     gradeRole: "2 | 학번 선배",
     department: "컴퓨터공학과",
     mbti: "ISTP",
@@ -41,8 +42,7 @@ const PEOPLE = [
   },
   {
     id: 2,
-    name: "안*리",
-    fullName: "안유리",
+    name: "안유리",
     gradeRole: "3 | 학번 선배",
     department: "사회과학대학",
     mbti: "ENFP",
@@ -55,8 +55,7 @@ const PEOPLE = [
   },
   {
     id: 3,
-    name: "한*서",
-    fullName: "한민서",
+    name: "한민서",
     gradeRole: "4 | 학번 선배",
     department: "미디어커뮤니케이션",
     mbti: "INTJ",
@@ -76,44 +75,24 @@ function Router() {
         <Route path="/" element={<SignupPage />} />
         <Route path="/mypage" element={<MyPage />} />
 
-        
-        {/* 3번: 밥약 잡기 목록 화면 */}
+        {/* 1. 밥약 잡기 목록 (불필요하고 버그를 내던온지운 onSelectPerson 완전 제거) */}
         <Route 
           path="/matching" 
-          element={
-            <MatchListPage 
-              people={PEOPLE} 
-              images={IMAGES} 
-              onSelectPerson={(person) => {
-                console.log("선택된 사람:", person);
-                // 나중에 상세페이지(/matching/:id)로 이동하는 로직이 들어갈 자리입니다.
-                window.location.href = `/chat`; 
-              }} 
-            />
-          } 
+          element={<MatchListPage people={PEOPLE} />} 
         />
+        
+        {/* 2. 상세 프로필 페이지 등록 */}
+        <Route path="/detail" element={<ProfileDetailPage />} />
 
-        {/* 4번: 채팅방 화면 */}
+        {/* 3. 채팅방 화면 (불필요한 새로고침 제거) */}
         <Route 
           path="/chat" 
-          element={
-            <ChatPage 
-              partner={PEOPLE[1]} // 우선 기본값으로 2번째 선배(안유리)와 대화하도록 세팅
-              images={IMAGES} 
-              onBack={() => window.location.href = "/matching"} 
-            />
-          } 
+          element={<ChatPage partner={PEOPLE[1]} images={IMAGES} />} 
         />
 
-        {/* 밥약 신청 완료 화면 */}
-        <Route 
-          path="/complete" 
-          element={
-            <CompletePage 
-              onHome={() => window.location.href = "/matching"} 
-            />
-          } 
-        />
+        {/* 4. 밥약 신청 완료 화면 */}
+        <Route path="/complete" element={<CompletePage />} />
+        
         <Route path="/guide" element={<GuidePage />} />
       </Routes>
     </BrowserRouter>
