@@ -55,7 +55,7 @@ function BottomNav({ images }) {
       <img 
         className={`bottom-nav-icon ${currentPath === "/matching" ? "active" : ""}`} 
         src={safeImages.navFind} 
-        alt="밥약 매칭 목록" 
+        alt="밥약 매칭 리스트" 
         onClick={() => navigate("/matching")}
         style={{ cursor: "pointer" }}
       />
