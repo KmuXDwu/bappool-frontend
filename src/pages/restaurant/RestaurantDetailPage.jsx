@@ -10,7 +10,12 @@ function RestaurantDetailPage() {
   if (!restaurant) {
     return (
       <main className="mobile-page restaurant-detail-page">
-        <button className="restaurant-detail-back" type="button" onClick={() => navigate(-1)}>
+        <button
+          className="restaurant-detail-back"
+          type="button"
+          onClick={() => navigate(-1)}
+          aria-label="뒤로가기"
+        >
           ←
         </button>
         <p className="restaurant-empty">가게 정보를 찾을 수 없습니다.</p>
@@ -20,11 +25,16 @@ function RestaurantDetailPage() {
 
   return (
     <main className="mobile-page restaurant-detail-page">
-      <button className="restaurant-detail-back" type="button" onClick={() => navigate(-1)}>
+      <button
+        className="restaurant-detail-back"
+        type="button"
+        onClick={() => navigate(-1)}
+        aria-label="뒤로가기"
+      >
         ←
       </button>
 
-      <div className={`restaurant-detail-hero ${restaurant.imageClass}`} />
+      <img className="restaurant-detail-hero" src={restaurant.image} alt="" />
 
       <section className="restaurant-detail-card">
         <h1>{restaurant.name}</h1>
@@ -48,7 +58,11 @@ function RestaurantDetailPage() {
         </dl>
       </section>
 
-      <button className="restaurant-confirm-button" type="button" onClick={() => navigate(-1)}>
+      <button
+        className="restaurant-confirm-button"
+        type="button"
+        onClick={() => navigate(-1)}
+      >
         이 가게로 정하기
       </button>
     </main>

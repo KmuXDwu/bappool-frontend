@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import SignupPage from "../pages/auth/SignupPage";
+import ChatListPage from "../pages/chat/ChatListPage";
 import ChatPage from "../pages/chat/ChatPage";
 import GuidePage from "../pages/guide/GuidePage";
 import LoginPage from "../pages/login/LoginPage";
@@ -15,7 +16,7 @@ import RestaurantListPage from "../pages/restaurant/RestaurantListPage";
 const IMAGES = {
   profileSmall: "/src/assets/images/profile1.svg",
   profileK: "/src/assets/images/profile4_K.svg",
-  profileD: "/src/assets/images/profile4_D.svg",
+  profileD: "/src/assets/images/profile_1.svg",
   satisfied: "/src/assets/images/profile2_satisfied.svg",
   sad: "/src/assets/images/profile3_sad.svg",
   chatRiceBack: "/src/assets/images/bap_back.svg",
@@ -47,8 +48,8 @@ const PEOPLE = [
   },
   {
     id: 2,
-    name: "안유리",
-    maskedName: "안*리",
+    name: "박지은",
+    maskedName: "박*은",
     gradeRole: "23학번 선배",
     department: "사회과학대학",
     mbti: "ENFP",
@@ -57,6 +58,7 @@ const PEOPLE = [
     available: true,
     statusText: "밥약 가능",
     image: IMAGES.profileSmall,
+    stamp: "D",
     tags: ["밥약 연락 환영", "HCI 사이언스", "자취 / 통학"],
     interests: ["HCI 사이언스", "자취 / 통학"],
   },
@@ -71,7 +73,8 @@ const PEOPLE = [
     age: "26살",
     available: true,
     statusText: "밥약 가능",
-    image: IMAGES.profileK,
+    image: IMAGES.profileD,
+    stamp: "D",
     tags: ["밥약 연락 환영", "새내기를 보고싶어요", "동아리 / 학회"],
     interests: ["미디어커뮤니케이션", "동아리 / 학회"],
   },
@@ -89,6 +92,7 @@ function Router() {
           element={<MatchListPage people={PEOPLE} images={IMAGES} />}
         />
         <Route path="/detail" element={<ProfileDetailPage />} />
+        <Route path="/messages" element={<ChatListPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/restaurants" element={<RestaurantListPage />} />
         <Route

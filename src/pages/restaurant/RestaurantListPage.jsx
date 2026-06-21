@@ -8,7 +8,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 화랑로13길 8",
     menu: "돈까스덮밥, 우동",
     price: "8,000원대",
-    imageClass: "udon",
+    image: "/src/assets/images/Mask group_YJ.svg",
   },
   {
     id: "katsu",
@@ -17,7 +17,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 월곡로 74",
     menu: "카츠정식, 김치나베",
     price: "9,000원대",
-    imageClass: "katsu",
+    image: "/src/assets/images/Mask group_UMN.svg",
   },
   {
     id: "sushi-show",
@@ -26,7 +26,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 오패산로 56",
     menu: "초밥 세트, 우동",
     price: "10,000원대",
-    imageClass: "sushi",
+    image: "/src/assets/images/Mask group_SSS.svg",
   },
   {
     id: "sushima",
@@ -35,7 +35,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 화랑로 91",
     menu: "초밥 정식, 우동",
     price: "10,000원대",
-    imageClass: "set",
+    image: "/src/assets/images/Mask group_SSEM.svg",
   },
 ];
 
@@ -63,7 +63,7 @@ function RestaurantListPage() {
             type="button"
             onClick={() => navigate(`/restaurants/${restaurant.id}`)}
           >
-            <div className={`restaurant-image ${restaurant.imageClass}`} />
+            <img className="restaurant-image" src={restaurant.image} alt="" />
 
             <div className="restaurant-copy">
               <h2>{restaurant.name}</h2>
