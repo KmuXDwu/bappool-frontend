@@ -1766,3 +1766,157 @@ body {
 .restaurant-detail-back svg {
   display: none !important;
 }
+
+/* 평가 */
+
+.rating-page,
+.thanks-page {
+  background: linear-gradient(180deg, #ffe3ac 0%, #fffaf3 100%);
+}
+
+.rating-page h1 {
+  color: #444444;
+  font-size: 38px;
+  font-weight: 500;
+  line-height: 1.17;
+  margin: 73px 0 0 113px;
+}
+
+.rating-options {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 137px;
+}
+
+.rating-options button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  gap: 15px;
+  justify-items: center;
+}
+
+.rating-options span {
+  color: #444444;
+  font-size: 22px;
+}
+
+.rating-face {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+}
+
+.satisfied-ring {
+  border: 4px solid #ffffff;
+}
+
+.sad-ring {
+  border: 4px solid #ff9f86;
+}
+
+/* 보은 */
+
+.thanks-page {
+  text-align: center;
+  overflow: hidden;
+}
+
+.thanks-page h1 {
+  color: #444444;
+  font-size: 28px;
+  font-weight: 500;
+  margin: 25px 0 54px;
+}
+
+.thanks-page p {
+  color: #111111;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.thanks-character {
+  width: 245px;
+  height: 345px;
+  margin-top: 39px;
+}
+
+.thanks-page .white-button {
+  margin-top: 36px;
+}
+
+/* 신고 */
+
+.report-page {
+  background: linear-gradient(180deg, #d1d1d1 0%, #ffffff 52%, #d7d7d7 100%);
+  overflow: hidden;
+  padding-top: 66px;
+}
+
+.report-back-button {
+  top: 20px;
+}
+
+.report-page h1 {
+  color: #4e4e4e;
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 67px;
+  text-align: center;
+}
+
+.report-box {
+  width: 318px;
+  height: 342px;
+  margin: 0 auto;
+  padding: 17px 26px;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  background: rgba(96, 96, 96, 0.68);
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.28);
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.report-box span {
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.35;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.report-box textarea {
+  width: 100%;
+  height: 230px;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  resize: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.report-submit {
+  width: 82px;
+  height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: #ffb547;
+  color: #111111;
+  cursor: pointer;
+  font-weight: 800;
+  position: absolute;
+  right: 34px;
+  bottom: 275px;
+  z-index: 30;
+}
+
+.report-submit:disabled {
+  opacity: 0.45;
+}
+
