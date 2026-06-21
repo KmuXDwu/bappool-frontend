@@ -4,17 +4,17 @@ body,
 #root {
   width: 100%;
   min-height: 100vh;
+  margin: 0;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  background: #ffffff;
+  background: #1f1f1f;
 }
 
 #root {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 /* bottom-nav-bg가 첫 번째 img라서 아이콘들은 nth-of-type(2)부터 시작 */
@@ -56,9 +56,11 @@ body {
 .mobile-page,
 .mypage-page,
 .profile-detail-page,
-.match-list-page {
-  width: 390px !important;
-  min-height: 844px !important;
+.match-list-page,
+.chat-page {
+  width: 393px !important;
+  height: 852px !important;
+  min-height: 852px !important;
   margin: 0 auto !important;
   position: relative !important;
   overflow: hidden !important;
@@ -68,19 +70,20 @@ body {
 
 /* 목록 페이지는 내용이 길 수 있어서 스크롤 허용 */
 .match-list-page {
-  padding-bottom: 120px !important;
-  overflow-y: auto !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
 }
 
 /* 하단바 */
 .bottom-nav {
-  width: 100% !important;
+  width: min(393px, 100vw) !important;
   height: 96px !important;
 
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
   bottom: 0 !important;
+  transform: translateX(-50%) !important;
 
   display: grid !important;
   grid-template-columns: repeat(5, 1fr) !important;
@@ -104,7 +107,6 @@ body {
 
   position: absolute !important;
   left: 0 !important;
-  right: 0 !important;
   bottom: 0 !important;
 
   z-index: 0 !important;
@@ -179,8 +181,8 @@ body {
 ========================= */
 
 .chat-page {
-  width: 390px;
-  height: 844px;
+  width: 393px;
+  height: 852px;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
@@ -191,19 +193,6 @@ body {
     BlinkMacSystemFont,
     sans-serif;
   color: #111111;
-}
-
-/* 상단 상태바 */
-.chat-status-bar {
-  height: 64px;
-  padding: 0 34px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  font-size: 16px;
-  font-weight: 800;
-  box-sizing: border-box;
 }
 
 /* 이름 있는 회색 헤더 */
@@ -225,32 +214,46 @@ body {
 
 .chat-back {
   position: absolute;
-  left: 22px;
+  left: 28px;
   top: 50%;
   transform: translateY(-50%);
 
-  width: 33px;
-  height: 33px;
+  width: 24px;
+  height: 36px;
   border: 0;
-  border-radius: 7px;
-
-  background: linear-gradient(#a8c4da, #66859e);
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 1;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
   cursor: pointer;
+}
+
+.chat-back::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: 18px;
+  height: 18px;
+  border-left: 4px solid #3d3d3d;
+  border-bottom: 4px solid #3d3d3d;
+  transform: rotate(45deg);
+  border-radius: 2px;
 }
 
 /* 채팅 배경 영역 */
 .chat-room {
-  height: 426px;
+  height: 714px;
   position: relative;
   background-color: #fff0d6;
   background-repeat: no-repeat;
-  background-position: center 18px;
+  background-position: center 65px;
   background-size: 350px auto;
-  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.chat-room::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-messages {
@@ -327,8 +330,13 @@ body {
 
 /* 입력창 */
 .chat-input-area {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   height: 64px;
   background: #ffffff;
+  z-index: 5;
 }
 
 .chat-input-bar {
@@ -459,4 +467,387 @@ body {
 .chat-restaurant-card span {
   font-size: 12px;
   color: #666666;
+}
+
+/* =========================
+   Matching Page
+========================= */
+
+.match-content {
+  height: calc(100% - 96px);
+  padding: 44px 26px 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f3f3 100%);
+  box-sizing: border-box;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.match-content::-webkit-scrollbar {
+  display: none;
+}
+
+.match-title {
+  margin: 0 0 22px;
+  text-align: center;
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 800;
+  color: #000000;
+}
+
+.match-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 34px;
+  align-items: center;
+}
+
+.match-tabs button {
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: #3b3b3b;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.match-tabs .active {
+  font-weight: 700;
+}
+
+.match-tab-line {
+  height: 6px;
+  margin: 0 -26px 13px;
+  background: linear-gradient(90deg, #ffb13d 0 40%, #d9d9d9 40% 100%);
+}
+
+.match-filter-row {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 21px;
+  overflow: hidden;
+}
+
+.match-filter {
+  height: 29px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 9px;
+  background: #ffb23f;
+  color: #6d4c2f;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.match-filter span {
+  display: inline-grid;
+  width: 13px;
+  height: 13px;
+  margin-left: 7px;
+  place-items: center;
+  border: 1px solid #6d4c2f;
+  border-radius: 50%;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.match-filter.muted {
+  background: #bfbfbf;
+  color: #6d6d6d;
+}
+
+.match-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.match-person-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 126px 1fr;
+  width: 100%;
+  min-height: 146px;
+  padding: 16px 16px 16px 18px;
+  border: 0;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #ffb13d 0%, #ffcf86 70%, #fff5e3 100%);
+  box-sizing: border-box;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.match-person-image {
+  align-self: center;
+  width: 101px;
+  height: 101px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.match-person-info {
+  min-width: 0;
+}
+
+.match-status-pill {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 11px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #6d4c2f;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.match-status-pill i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.match-status-pill .green {
+  background: #21d34a;
+}
+
+.match-status-pill .red {
+  background: #ff2f20;
+}
+
+.match-person-info h2 {
+  margin: 21px 0 12px;
+  color: #555555;
+  font-size: 39px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.match-person-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.match-person-tags span {
+  min-height: 25px;
+  padding: 7px 12px 0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #6a594d;
+  font-size: 10px;
+  font-weight: 700;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* =========================
+   Matching Profile Detail
+========================= */
+
+.profile-detail-page {
+  padding: 84px 37px 0 !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+.profile-back-button {
+  position: absolute;
+  left: 18px;
+  top: 24px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: #3d3d3d;
+  font-size: 35px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.profile-empty-text {
+  margin-top: 80px;
+  text-align: center;
+  color: #4a3220;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.profile-detail-card {
+  position: relative;
+  min-height: 642px;
+  padding: 30px 23px 22px;
+  border: 2px solid #ffc35a;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffb23f 0%, #ffd99c 43%, #fff3dd 100%);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.profile-detail-character {
+  display: block;
+  width: 146px;
+  height: 146px;
+  margin: 0 auto 16px;
+  object-fit: contain;
+}
+
+.profile-detail-card h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  text-align: center;
+  color: #777777;
+  font-size: 45px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.profile-detail-role {
+  position: relative;
+  z-index: 1;
+  margin: 10px 0 18px;
+  text-align: center;
+  color: #777777;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.profile-info-box {
+  position: relative;
+  z-index: 1;
+  min-height: 138px;
+  margin-bottom: 14px;
+  padding: 16px 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.22);
+  box-sizing: border-box;
+}
+
+.profile-info-box h2 {
+  margin: 0 0 22px;
+  color: #666666;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.profile-info-box ul {
+  margin: 0;
+  padding-left: 16px;
+  color: #666666;
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.profile-topic-box {
+  min-height: 108px;
+}
+
+.profile-topic-box h2 {
+  margin-bottom: 18px;
+}
+
+.profile-topic-box div {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-topic-box span {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #666666;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18);
+}
+
+.profile-card-stamp {
+  position: absolute;
+  right: -56px;
+  bottom: 2px;
+  width: 246px;
+  height: 246px;
+  border: 14px solid rgba(176, 60, 60, 0.12);
+  border-radius: 50%;
+}
+
+.profile-card-stamp::before {
+  content: "DONGDUK WOMEN'S";
+  position: absolute;
+  left: 29px;
+  top: 104px;
+  width: 180px;
+  color: rgba(176, 60, 60, 0.15);
+  font-size: 22px;
+  font-weight: 800;
+  transform: rotate(-28deg);
+}
+
+.profile-apply-button {
+  display: block;
+  width: 196px;
+  height: 79px;
+  margin: 31px auto 0;
+  border: 0;
+  border-radius: 6px;
+  background: #ffb23f;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.profile-apply-button.disabled {
+  background: #d9d9d9;
+}
+
+.profile-modal-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.profile-modal {
+  width: 282px;
+  padding: 26px 22px 20px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+}
+
+.profile-modal p {
+  margin: 0 0 20px;
+  color: #4a3220;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.profile-modal button {
+  width: 100%;
+  height: 42px;
+  border: 0;
+  border-radius: 9px;
+  background: #ffb23f;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
 }
