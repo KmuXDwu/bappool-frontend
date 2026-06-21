@@ -8,6 +8,9 @@ const DEFAULT_PARTNER = {
   image: "/src/assets/images/kmu_senior.png",
 };
 
+// 💡 임시 현재 로그인 유저 역할 세팅 ('senior' 또는 'freshman'으로 테스트해 보세요!)
+const CURRENT_USER_ROLE = "Freshman"; // "senior" 또는 "freshman"으로 테스트 가능
+
 function ChatPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,6 +27,7 @@ function ChatPage() {
   );
 
   const [inputValue, setInputValue] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // 💡 커스텀 모달 상태 추가
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem(roomStorageKey);
 
@@ -58,7 +62,6 @@ function ChatPage() {
 
   const handleSendText = () => {
     const nextMessage = inputValue.trim();
-
     if (!nextMessage) return;
 
     setMessages((prevMessages) => [
@@ -73,8 +76,27 @@ function ChatPage() {
     setInputValue("");
   };
 
+  // 💡 플러스(+) 버튼 클릭 (선배: 맛집리스트 이동 / 후배: 먹통)
+  const handlePlusClick = (e) => {
+    e.stopPropagation();
+    if (CURRENT_USER_ROLE === "senior") {
+      navigate("/rating", { state: { partner } }); 
+    }
+  };
+
+  // 💡 커스텀 모달 안에서 '확인(종료)'을 눌렀을 때 실행되는 함수
+  const handleConfirmExit = () => {
+    setIsModalOpen(false);
+    if (CURRENT_USER_ROLE === "senior") {
+      navigate("/mypage");  // ➔ 선배는 확실하게 마이페이지로!
+    } else {
+      navigate("/rating", { state: { partner: partner } });  // ➔ 후배는 평가 페이지로!
+    }
+  };
+
   return (
     <main className="chat-page">
+      {/* 헤더 영역 */}
       <header className="chat-header">
         <button
           className="chat-back"
@@ -85,8 +107,17 @@ function ChatPage() {
           ←
         </button>
         <h1>{partnerName}</h1>
+        {/* 대화 종료 버튼 누르면 커스텀 모달을 염 */}
+        <button 
+          className="chat-exit-btn" 
+          type="button" 
+          onClick={() => setIsModalOpen(true)}
+        >
+          대화 종료
+        </button>
       </header>
 
+      {/* 채팅 메인 룸 */}
       <section
         className="chat-room"
         style={{ backgroundImage: `url(${riceBackground})` }}
@@ -124,9 +155,15 @@ function ChatPage() {
         </div>
       </section>
 
+      {/* 하단 입력창 구역 */}
       <section className="chat-input-area">
-        <div className="chat-input-bar" onClick={handleFocusInput}>
-          <button type="button" className="chat-plus" aria-label="추가">
+        <div className="chat-input-bar">
+          <button 
+            type="button" 
+            className="chat-plus" 
+            aria-label="추가"
+            onClick={handlePlusClick}
+          >
             +
           </button>
 
@@ -135,6 +172,7 @@ function ChatPage() {
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}
             placeholder="메시지 입력"
+            onClick={handleFocusInput}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 handleSendText();
@@ -151,6 +189,24 @@ function ChatPage() {
           </button>
         </div>
       </section>
+
+      {/* 💡 깔끔한 대화종료 커스텀 팝업 모달 */}
+      {isModalOpen && (
+        <div className="custom-modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="custom-modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>대화 종료</h3>
+            <p>정말 밥약 대화를 종료하시겠습니까?</p>
+            <div className="custom-modal-buttons">
+              <button className="modal-btn-cancel" onClick={() => setIsModalOpen(false)}>
+                취소
+              </button>
+              <button className="modal-btn-confirm" onClick={handleConfirmExit}>
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

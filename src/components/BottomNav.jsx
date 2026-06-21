@@ -27,10 +27,10 @@ function BottomNav({ images }) {
       />
 
       <img
-        className={`bottom-nav-icon ${currentPath === "/chat" ? "active" : ""}`}
+        className={`bottom-nav-icon ${currentPath === "/chatlist" ? "active" : ""}`}
         src={safeImages.navChat}
         alt="채팅"
-        onClick={() => navigate("/chat")}
+        onClick={() => navigate("/ChatListPage")}
       />
 
       <button

@@ -9,6 +9,11 @@ import ChatPage from "../pages/chat/ChatPage";
 import GuidePage from "../pages/guide/GuidePage";
 import MapPage from "../pages/map/MapPage";
 import ProfileDetailPage from "../pages/matching/ProfileDetailPage";
+import RestaurantListPage from "../pages/restaurant/RestaurantListPage";
+import RatingPage from "../pages/rating/RatingPage";
+import ThanksPage from "../pages/rating/ThanksPage";
+import ReportPage from "../pages/rating/ReportPage";
+import ChatListPage from "../pages/chat/ChatListPage";
 
 const IMAGES = {
   profileSmall: "/src/assets/images/profile1.svg",
@@ -103,6 +108,11 @@ function Router() {
         
         <Route path="/guide" element={<GuidePage />} />
         <Route path="/map" element={<MapPage />} />
+        <Route path="/RestaurantListPage" element={<RestaurantListPage />} />
+        <Route path="/rating" element={<RatingPage />} />
+        <Route path="/Thankspage" element={<ThanksPage />} />
+        <Route path="/ReportPage" element={<ReportPage />} />
+        <Route path="/ChatListPage" element={<ChatListPage />} />
       </Routes>
     </BrowserRouter>
   );

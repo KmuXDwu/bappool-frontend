@@ -320,7 +320,7 @@ export function BottomNav() {
         className={`bottom-nav-icon ${currentPath === "/chat" ? "active" : ""}`} 
         src={safeImages.navChat} 
         alt="채팅" 
-        onClick={() => navigate("/chat")}
+        onClick={() => navigate("/ChatListPage")}
         style={{ cursor: "pointer" }}
       />
       <button 

@@ -1632,6 +1632,199 @@ textarea {
   font-size: 12px;
   color: #666666;
 }
+
+/* 대화 종료 버튼 스타일 */
+.chat-exit-btn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(255, 82, 82, 0.2);
+  transition: background 0.2s;
+}
+
+.chat-exit-btn:hover {
+  background: #e04040;
+}
+
+.custom-modal-overlay {
+  position: absolute; /* .chat-page(393x852) 안에서만 돌도록 설정 */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.custom-modal-content {
+  background: #ffffff;
+  width: 280px;
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.custom-modal-content h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.custom-modal-content p {
+  margin: 0 0 24px 0;
+  font-size: 14px;
+  color: #666666;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.custom-modal-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.custom-modal-buttons button {
+  flex: 1;
+  border: none;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.modal-btn-cancel {
+  background: #eeeeee;
+  color: #666666;
+}
+
+.modal-btn-cancel:hover {
+  background: #e2e2e2;
+}
+
+.modal-btn-confirm {
+  background: #ff9f1a;
+  color: #ffffff;
+}
+
+.modal-btn-confirm:hover {
+  background: #e58f17;
+}
+
+.chat-list-page {
+  background: #ffffff !important;
+  overflow: hidden !important;
+}
+
+.chat-list-content {
+  height: calc(100% - 96px);
+  padding: 132px 38px 28px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.chat-list-content::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-list-content h1,
+.chat-list-content h2 {
+  margin: 0;
+  color: #111111;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.chat-list-content h1 {
+  margin-bottom: 31px;
+}
+
+.chat-list-content h2 {
+  margin: 43px 0 25px;
+}
+
+.chat-list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.chat-list-section.recommended {
+  gap: 25px;
+}
+
+.chat-list-item {
+  width: 100%;
+  min-height: 80px;
+  display: grid;
+  grid-template-columns: 84px 1fr auto;
+  align-items: center;
+  gap: 15px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chat-list-avatar {
+  width: 79px;
+  height: 79px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #ffbd55;
+}
+
+.chat-list-copy {
+  min-width: 0;
+}
+
+.chat-list-copy strong {
+  display: block;
+  margin-bottom: 22px;
+  color: #111111;
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.chat-list-copy span {
+  display: block;
+  max-width: 260px;
+  color: #777777;
+  font-size: 14px;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-list-item time {
+  align-self: end;
+  margin-bottom: 18px;
+  color: #777777;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.chat-list-copy strong {
+  margin-bottom: 20px;
+}
+
+
+
 /* 키보드 */
 
 .fake-keyboard {
@@ -2229,4 +2422,62 @@ textarea {
   color: #444444;
   font-size: 28px;
   cursor: pointer;
+}
+
+/* =========================
+   Global Back Button
+========================= */
+
+.back-button,
+.chat-back,
+.chat-list-back,
+.profile-back-button,
+.restaurant-list-back,
+.restaurant-detail-back {
+  position: absolute !important;
+  width: 36px !important;
+  height: 44px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  z-index: 20 !important;
+}
+
+.back-button {
+  left: 25px !important;
+  top: 24px !important;
+}
+
+.back-button::before,
+.chat-back::before,
+.chat-list-back::before,
+.profile-back-button::before,
+.restaurant-list-back::before,
+.restaurant-detail-back::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 10px !important;
+  top: 9px !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-left: 5px solid #3d3d3d !important;
+  border-bottom: 5px solid #3d3d3d !important;
+  border-radius: 2px !important;
+  transform: rotate(45deg) !important;
+}
+
+.back-button svg,
+.chat-back svg,
+.chat-list-back svg,
+.profile-back-button svg,
+.restaurant-list-back svg,
+.restaurant-detail-back svg {
+  display: none !important;
 }
