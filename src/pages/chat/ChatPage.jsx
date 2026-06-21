@@ -8,18 +8,28 @@ const DEFAULT_PARTNER = {
   image: "/src/assets/images/kmu_senior.png",
 };
 
+function createInitialMessages(partnerName) {
+  return [
+    {
+      id: "system-created",
+      type: "system",
+      text: `${partnerName}님과의 밥약 채팅방이 생성되었습니다.`,
+    },
+  ];
+}
+
 function ChatPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const inputRef = useRef(null);
 
   const partner = location.state?.partner || DEFAULT_PARTNER;
-  const partnerName = partner.maskedName || partner.name || "채팅방";
+  const partnerName = partner.maskedName || partner.name || DEFAULT_PARTNER.maskedName;
   const profileImage = partner.image || DEFAULT_PARTNER.image;
   const riceBackground = "/src/assets/images/bap_back.svg";
 
   const roomStorageKey = useMemo(
-    () => `bappul-chat-room-${partner.id || partnerName}`,
+    () => `bappul-chat-room-v2-${partner.id || partnerName}`,
     [partner.id, partnerName],
   );
 
@@ -36,14 +46,32 @@ function ChatPage() {
       }
     }
 
-    return [
-      {
-        id: "system-created",
-        type: "system",
-        text: `${partnerName}님과의 밥약 채팅방이 생성되었습니다.`,
-      },
-    ];
+    return createInitialMessages(partnerName);
   });
+
+  useEffect(() => {
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith("bappul-chat-room-") && !key.startsWith("bappul-chat-room-v2-"))
+      .forEach((key) => localStorage.removeItem(key));
+  }, []);
+
+  useEffect(() => {
+    setMessages((prevMessages) => {
+      const [firstMessage, ...restMessages] = prevMessages;
+
+      if (firstMessage?.type !== "system") {
+        return createInitialMessages(partnerName);
+      }
+
+      return [
+        {
+          ...firstMessage,
+          text: `${partnerName}님과의 밥약 채팅방이 생성되었습니다.`,
+        },
+        ...restMessages.filter((message) => message.text !== "dkssud"),
+      ];
+    });
+  }, [partnerName]);
 
   useEffect(() => {
     localStorage.setItem(roomStorageKey, JSON.stringify(messages));
@@ -91,7 +119,7 @@ function ChatPage() {
           onClick={() => navigate(-1)}
           aria-label="뒤로가기"
         >
-          ←
+          ‹
         </button>
         <h1>{partnerName}</h1>
       </header>

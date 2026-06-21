@@ -8,7 +8,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 화랑로13길 8",
     menu: "돈까스덮밥, 우동",
     price: "8,000원대",
-    image: "/src/assets/images/Mask group_YJ.svg",
+    image: "/src/assets/images/yj.jpg",
   },
   {
     id: "katsu",
@@ -17,7 +17,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 월곡로 74",
     menu: "카츠정식, 김치나베",
     price: "9,000원대",
-    image: "/src/assets/images/Mask group_UMN.svg",
+    image: "/src/assets/images/ymn.jpg",
   },
   {
     id: "sushi-show",
@@ -26,7 +26,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 오패산로 56",
     menu: "초밥 세트, 우동",
     price: "10,000원대",
-    image: "/src/assets/images/Mask group_SSS.svg",
+    image: "/src/assets/images/sss.jpg",
   },
   {
     id: "sushima",
@@ -35,7 +35,7 @@ export const RESTAURANTS = [
     address: "서울 성북구 화랑로 91",
     menu: "초밥 정식, 우동",
     price: "10,000원대",
-    image: "/src/assets/images/Mask group_SSEM.svg",
+    image: "/src/assets/images/ssim.jpg",
   },
 ];
 
