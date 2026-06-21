@@ -24,6 +24,7 @@ function ChatPage() {
   );
 
   const [inputValue, setInputValue] = useState("");
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem(roomStorageKey);
 
@@ -71,6 +72,14 @@ function ChatPage() {
     ]);
 
     setInputValue("");
+  };
+
+  const handleOpenRestaurants = () => {
+    navigate("/restaurants", {
+      state: {
+        partner,
+      },
+    });
   };
 
   return (
@@ -126,7 +135,16 @@ function ChatPage() {
 
       <section className="chat-input-area">
         <div className="chat-input-bar" onClick={handleFocusInput}>
-          <button type="button" className="chat-plus" aria-label="추가">
+          <button
+            type="button"
+            className="chat-plus"
+            aria-label="가게 리스트 보기"
+            onClick={(event) => {
+              event.stopPropagation();
+              inputRef.current?.blur();
+              setIsGuideOpen(true);
+            }}
+          >
             +
           </button>
 
@@ -151,6 +169,41 @@ function ChatPage() {
           </button>
         </div>
       </section>
+
+      {isGuideOpen && (
+        <div className="restaurant-guide-layer">
+          <button
+            className="restaurant-guide-dim"
+            type="button"
+            aria-label="닫기"
+            onClick={() => setIsGuideOpen(false)}
+          />
+
+          <section className="restaurant-guide-sheet">
+            <header className="restaurant-guide-header">
+              <h2>가게 리스트 보기</h2>
+              <button type="button" onClick={() => setIsGuideOpen(false)}>
+                완료
+              </button>
+            </header>
+
+            <div className="restaurant-guide-options">
+              <button type="button" onClick={handleOpenRestaurants}>
+                가나다순 정렬
+              </button>
+              <button type="button" onClick={handleOpenRestaurants}>
+                음식 종류별
+              </button>
+              <button type="button" onClick={handleOpenRestaurants}>
+                만원 이하 가성비 식사
+              </button>
+              <button type="button" onClick={handleOpenRestaurants}>
+                학교 근처 가심비 식당
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </main>
   );
 }

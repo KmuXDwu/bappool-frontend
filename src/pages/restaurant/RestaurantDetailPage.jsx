@@ -1,19 +1,40 @@
-import BackButton from "../../components/BackButton";
+import { useNavigate, useParams } from "react-router-dom";
 
-function RestaurantDetailPage({ restaurant, onBack, onConfirm }) {
+import { RESTAURANTS } from "./RestaurantListPage";
+
+function RestaurantDetailPage() {
+  const navigate = useNavigate();
+  const { restaurantId } = useParams();
+  const restaurant = RESTAURANTS.find((item) => item.id === restaurantId);
+
+  if (!restaurant) {
+    return (
+      <main className="mobile-page restaurant-detail-page">
+        <button
+          className="restaurant-detail-back"
+          type="button"
+          onClick={() => navigate(-1)}
+          aria-label="뒤로가기"
+        >
+          ←
+        </button>
+        <p className="restaurant-empty">가게 정보를 찾을 수 없습니다.</p>
+      </main>
+    );
+  }
+
   return (
-    <div className="mobile-page restaurant-detail-page">
-      <BackButton onClick={onBack} />
+    <main className="mobile-page restaurant-detail-page">
+      <button
+        className="restaurant-detail-back"
+        type="button"
+        onClick={() => navigate(-1)}
+        aria-label="뒤로가기"
+      >
+        ←
+      </button>
 
-      {restaurant.image ? (
-        <img
-          className="restaurant-detail-image"
-          src={restaurant.image}
-          alt=""
-        />
-      ) : (
-        <div className="restaurant-detail-image placeholder" />
-      )}
+      <img className="restaurant-detail-hero" src={restaurant.image} alt="" />
 
       <section className="restaurant-detail-card">
         <h1>{restaurant.name}</h1>
@@ -37,10 +58,14 @@ function RestaurantDetailPage({ restaurant, onBack, onConfirm }) {
         </dl>
       </section>
 
-      <button className="large-orange-button" type="button" onClick={onConfirm}>
+      <button
+        className="restaurant-confirm-button"
+        type="button"
+        onClick={() => navigate(-1)}
+      >
         이 가게로 정하기
       </button>
-    </div>
+    </main>
   );
 }
 

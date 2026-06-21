@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function BottomNav({ images }) {
   const navigate = useNavigate();
@@ -27,16 +27,18 @@ function BottomNav({ images }) {
       />
 
       <img
-        className={`bottom-nav-icon ${currentPath === "/chat" ? "active" : ""}`}
+        className={`bottom-nav-icon ${
+          currentPath === "/messages" || currentPath === "/chat" ? "active" : ""
+        }`}
         src={safeImages.navChat}
         alt="채팅"
-        onClick={() => navigate("/chat")}
+        onClick={() => navigate("/messages")}
       />
 
       <button
         className="home-bowl"
         type="button"
-        aria-label="마이페이지 홈"
+        aria-label="마이페이지"
         onClick={() => navigate("/mypage")}
       >
         <img className="home-bowl-bg" src={safeImages.navBapBg} alt="" />
@@ -46,14 +48,14 @@ function BottomNav({ images }) {
       <img
         className={`bottom-nav-icon ${currentPath === "/matching" ? "active" : ""}`}
         src={safeImages.navFind}
-        alt="밥약 매칭 리스트"
+        alt="밥약 잡기"
         onClick={() => navigate("/matching")}
       />
 
       <img
         className={`bottom-nav-icon ${currentPath === "/guide" ? "active" : ""}`}
         src={safeImages.navKnowledge}
-        alt="밥약 가이드북"
+        alt="밥약 가이드"
         onClick={() => navigate("/guide")}
       />
     </nav>
