@@ -426,6 +426,28 @@ body {
   margin-top: -10px;
 }
 
+/* 대화 종료 버튼 스타일 */
+.chat-exit-btn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(255, 82, 82, 0.2);
+  transition: background 0.2s;
+}
+
+.chat-exit-btn:hover {
+  background: #e04040;
+}
+
 /* 말풍선 */
 .chat-bubble {
   max-width: 238px;
