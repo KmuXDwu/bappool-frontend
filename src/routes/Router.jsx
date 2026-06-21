@@ -10,9 +10,13 @@ import CompletePage from "../pages/matching/CompletePage";
 import MatchListPage from "../pages/matching/MatchListPage";
 import ProfileDetailPage from "../pages/matching/ProfileDetailPage";
 import MyPage from "../pages/profile/MyPage";
+import RatingPage from "../pages/rating/RatingPage";
+import ReportPage from "../pages/rating/ReportPage";
+import ThanksPage from "../pages/rating/ThanksPage";
 import RestaurantDetailPage from "../pages/restaurant/RestaurantDetailPage";
 import RestaurantListPage from "../pages/restaurant/RestaurantListPage";
 import { PEOPLE } from "../mocks/people";
+
 const IMAGES = {
   profileSmall: "/src/assets/images/profile1.svg",
   profileK: "/src/assets/images/profile4_K.svg",
@@ -50,8 +54,16 @@ function Router() {
           element={<RestaurantDetailPage />}
         />
         <Route path="/complete" element={<CompletePage />} />
+        <Route path="/rating" element={<RatingPage />} />
+        <Route path="/thanks" element={<ThanksPage />} />
+        <Route path="/report" element={<ReportPage />} />
         <Route path="/guide" element={<GuidePage />} />
         <Route path="/map" element={<MapPage />} />
+
+        <Route path="/ChatListPage" element={<ChatListPage />} />
+        <Route path="/RestaurantListPage" element={<RestaurantListPage />} />
+        <Route path="/Thankspage" element={<ThanksPage />} />
+        <Route path="/ReportPage" element={<ReportPage />} />
       </Routes>
     </BrowserRouter>
   );
