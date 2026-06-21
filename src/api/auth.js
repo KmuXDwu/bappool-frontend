@@ -28,7 +28,8 @@ export const login = async ({ email, password }) => {
     password,
   });
 
-  const { accessToken, refreshToken } = response.data;
+  const authData = response.data?.data || response.data;
+  const { accessToken, refreshToken } = authData;
 
   if (accessToken) {
     localStorage.setItem("accessToken", accessToken);
