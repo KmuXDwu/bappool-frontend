@@ -1,5 +1,3 @@
-import { ArrowLeft } from "lucide-react";
-
 function BackButton({ onClick, className = "" }) {
   return (
     <button
@@ -7,9 +5,7 @@ function BackButton({ onClick, className = "" }) {
       type="button"
       aria-label="뒤로가기"
       onClick={onClick}
-    >
-      <ArrowLeft size={34} />
-    </button>
+    />
   );
 }
 

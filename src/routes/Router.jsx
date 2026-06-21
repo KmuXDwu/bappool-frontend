@@ -7,6 +7,8 @@ import CompletePage from "../pages/matching/CompletePage";
 import MatchListPage from "../pages/matching/MatchListPage";
 import ProfileDetailPage from "../pages/matching/ProfileDetailPage";
 import MyPage from "../pages/profile/MyPage";
+import RestaurantDetailPage from "../pages/restaurant/RestaurantDetailPage";
+import RestaurantListPage from "../pages/restaurant/RestaurantListPage";
 
 const IMAGES = {
   profileSmall: "/src/assets/images/profile1.svg",
@@ -85,6 +87,8 @@ function Router() {
         />
         <Route path="/detail" element={<ProfileDetailPage />} />
         <Route path="/chat" element={<ChatPage />} />
+        <Route path="/restaurants" element={<RestaurantListPage />} />
+        <Route path="/restaurants/:restaurantId" element={<RestaurantDetailPage />} />
         <Route path="/complete" element={<CompletePage />} />
         <Route path="/guide" element={<GuidePage />} />
       </Routes>
