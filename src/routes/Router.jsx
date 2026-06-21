@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignupPage from "../pages/auth/SignupPage";
 import ChatPage from "../pages/chat/ChatPage";
 import GuidePage from "../pages/guide/GuidePage";
+import LoginPage from "../pages/login/LoginPage";
+import MapPage from "../pages/map/MapPage";
 import CompletePage from "../pages/matching/CompletePage";
 import MatchListPage from "../pages/matching/MatchListPage";
 import ProfileDetailPage from "../pages/matching/ProfileDetailPage";
@@ -40,7 +42,7 @@ const PEOPLE = [
     available: false,
     statusText: "밥약 불가능",
     image: IMAGES.profileK,
-    tags: ["이번달 지갑 방전 💸", "문화예술경영", "교환학생 / 대외활동"],
+    tags: ["이번달 지갑 방전", "문화예술경영", "교환학생 / 대외활동"],
     interests: ["학교 생활", "교환학생 / 대외활동"],
   },
   {
@@ -55,7 +57,7 @@ const PEOPLE = [
     available: true,
     statusText: "밥약 가능",
     image: IMAGES.profileSmall,
-    tags: ["밥약 연락 환영 😊", "HCI 사이언스", "자취 / 통학"],
+    tags: ["밥약 연락 환영", "HCI 사이언스", "자취 / 통학"],
     interests: ["HCI 사이언스", "자취 / 통학"],
   },
   {
@@ -70,7 +72,7 @@ const PEOPLE = [
     available: true,
     statusText: "밥약 가능",
     image: IMAGES.profileK,
-    tags: ["밥약 연락 환영 😁", "새내기를 보고싶어요", "동아리 / 학회"],
+    tags: ["밥약 연락 환영", "새내기를 보고싶어요", "동아리 / 학회"],
     interests: ["미디어커뮤니케이션", "동아리 / 학회"],
   },
 ];
@@ -79,7 +81,8 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SignupPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route
           path="/matching"
@@ -88,9 +91,13 @@ function Router() {
         <Route path="/detail" element={<ProfileDetailPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/restaurants" element={<RestaurantListPage />} />
-        <Route path="/restaurants/:restaurantId" element={<RestaurantDetailPage />} />
+        <Route
+          path="/restaurants/:restaurantId"
+          element={<RestaurantDetailPage />}
+        />
         <Route path="/complete" element={<CompletePage />} />
         <Route path="/guide" element={<GuidePage />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
     </BrowserRouter>
   );

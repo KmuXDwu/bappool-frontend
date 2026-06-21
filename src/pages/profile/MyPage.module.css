@@ -1,3 +1,4 @@
+﻿/* ?곷떒 移대뱶 洹몃씪?곗씠??諛?怨듯넻 ?덉씠?꾩썐 */
 .page {
   position: relative;
   display: flex;
@@ -23,7 +24,7 @@
   overflow-x: hidden;
   box-sizing: border-box;
 }
-/* ---------------------------------- 상단 바 및 수정 버튼 ---------------------------------- */
+/* ---------------------------------- ?곷떒 諛?諛??섏젙 踰꾪듉 ---------------------------------- */
 .topBar {
   display: flex;
   justify-content: flex-end;
@@ -43,20 +44,11 @@
   transition: opacity 0.15s ease;
 }
 
-.editButton:hover {
-  opacity: 0.9;
-}
-
-/* ---------------------------------- 드래그 슬라이더 레이아웃 ---------------------------------- */
 .sliderViewport {
   width: 100%;
   padding: 0 20px;
-  overflow: visible; /* 다음 카드 엿보기 효과 */
+  overflow: visible;
   cursor: grab;
-}
-
-.sliderViewport:active {
-  cursor: grabbing;
 }
 
 .sliderTrack {
@@ -66,6 +58,11 @@
   will-change: transform;
 }
 
+/* ?꾨줈??移대뱶 7:3 洹몃씪?곗씠???곸슜 */
+.profileCard {
+  background: linear-gradient(to bottom, #ffb338 0%, #ffc463 65%, #ffffff 100%) !important;
+}
+
 .card {
   flex-shrink: 0;
   width: 100%;
@@ -73,13 +70,45 @@
   border-radius: 24px;
   padding: 20px 22px 26px;
   background: #ffb338;
-  box-shadow: 0 10px 24px rgba(255, 168, 38, 0.2);
+  box-shadow: 0 10px 24px rgba(255, 168, 38, 0.15);
   position: relative;
   overflow: hidden;
   user-select: none;
 }
 
-/* ---------------------------------- 인디케이터 ---------------------------------- */
+/* ?꾨줈???섏젙 紐⑤뱶 ?명뭼 ?ㅽ???*/
+.editInputRow {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ffa826;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #4a3220;
+  background-color: #ffffff;
+  outline: none;
+}
+
+/* ??異붽?: ?섏젙 紐⑤뱶????蹂댁뿬以?愿?ъ＜???좏깮 踰꾪듉 湲곕낯 ?붿옄??*/
+.interestToggleButton {
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6a5340;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ??異붽?: 愿?ъ궗 ?좏깮(?쒖꽦???섏뿀?????뚯썝媛???섏씠吏? ?붿옄??留ㅼ묶 */
+.selected {
+  background: #f4b24f !important;
+  color: white !important;
+  border: 1px solid #f4b24f !important;
+}
+
+/* ?몃뵒耳?댄꽣 諛??대? 而댄룷?뚰듃 */
 .indicator {
   display: flex;
   justify-content: center;
@@ -92,7 +121,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(82, 68, 56, 0.2);
   transition: all 0.2s ease;
 }
 
@@ -101,7 +130,6 @@
   background: #524438;
 }
 
-/* ---------------------------------- 프로필 카드 내부 UI + 캐릭터 연동 스타일 ---------------------------------- */
 .characterWrap {
   position: relative;
   display: flex;
@@ -109,19 +137,17 @@
   margin: 0 auto 12px;
   width: 120px;
   height: 120px;
-  cursor: pointer;
 }
 
 .characterPlaceholder {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  background: #ffffff;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* 이미지가 튀어나가지 않도록 동그랗게 컷 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
 .characterImage {
@@ -150,7 +176,7 @@
   z-index: 5;
 }
 
-/* 🔥 캐릭터 선택 팝업창 레이아웃 */
+/* ?뵦 罹먮┃???좏깮 ?앹뾽李??덉씠?꾩썐 */
 .characterSelector {
   background: #ffffff;
   border: 1px solid #e0e0e0;
@@ -198,7 +224,7 @@
   font-weight: 700;
 }
 
-/* ---------------------------------- 정보 및 텍스트 블록 ---------------------------------- */
+/* ---------------------------------- ?뺣낫 諛??띿뒪??釉붾줉 ---------------------------------- */
 .nameBlock {
   text-align: center;
   margin-bottom: 20px;
@@ -277,7 +303,6 @@
   pointer-events: none;
 }
 
-/* ---------------------------------- 시간표 레이아웃 ---------------------------------- */
 .timetableTitle {
   margin: 0 0 16px;
   font-size: 18px;
@@ -324,7 +349,7 @@
   display: none;
 }
 
-/* ---------------------------------- 애니메이션 ---------------------------------- */
+/* ---------------------------------- ?좊땲硫붿씠??---------------------------------- */
 @keyframes fadeIn {
   from {
     opacity: 0;

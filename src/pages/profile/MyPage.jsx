@@ -2,20 +2,30 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './MyPage.module.css';
 
-// 1. 초기 덤 데이터 (나중에 이 구조대로 API 데이터를 받으시면 됩니다)
+// 1. 초기 덤 데이터 (기본 정보 고정)
 const dummyUser = {
   name: '이연주',
-  university: '국민대',      // '국민대' 또는 '동덕여대'
-  studentId: '26학번',
-  role: 'freshman',         // 'freshman'(후배) 또는 'senior'(선배)
-  department: '국어국문학과',
-  mbti: 'ENFJ',
-  hobbies: ['뜨개질', '노래 부르기'],
-  age: '21살',
-  interests: ['학교 생활', '교환학생 / 대외활동'],
+  university: '국민대',      
+  studentId: '26학번',       
+  role: 'freshman',         
+  department: '국어국문학과',  
+  mbti: 'ENFJ',             
+  age: '21살',              
+  hobbies: ['뜨개질', '노래 부르기'],          // 수정 가능 (텍스트 입력)
+  interests: ['학교 생활 🏫', '교환학생 / 대외활동 ✈️'], // ★ 수정 가능 (토글 선택)
 };
 
-// 2. 🎨 자동 매칭될 학교별 캐릭터 이미지 매핑 테이블
+// ★ 회원가입 페이지에서 제공하던 관심주제 전체 리스트 동일하게 세팅
+const INTEREST_LIST = [
+  "학교 생활 🏫",
+  "교환학생 / 대외활동 ✈️",
+  "동아리 / 학회 🎒",
+  "자취 / 통학 🚶‍♂️",
+  "과제 / 팀플 ✍️",
+  "학과 공부 💯",
+  "복수전공/전과/편입 😎",
+];
+
 const CHARACTER_IMAGES = {
   '국민대-senior': '/src/assets/images/kmu_senior.png',   
   '국민대-freshman': '/src/assets/images/kmu_freshman.png', 
@@ -32,29 +42,26 @@ export default function MyPage({ initialUser = dummyUser }) {
   const [currentPage, setCurrentPage] = useState(PAGE.PROFILE);
   const [timetableImage, setTimetableImage] = useState(null);
   
-  // 📝 프로필 수정 관련 상태들
   const [user, setUser] = useState(initialUser);
-  const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
-  const [editedName, setEditedName] = useState(user.name);
-  const [editedDept, setEditedDept] = useState(user.department);
-  const [editedMbti, setEditedMbti] = useState(user.mbti);
+  const [isEditing, setIsEditing] = useState(false); 
+
+  // ★ 수정 가능 항목 전용 상태값
+  const [editedHobbies, setEditedHobbies] = useState(user.hobbies.join(', '));
+  const [editedInterests, setEditedInterests] = useState(user.interests); // 배열 형태로 바로 토글 관리
 
   const fileInputRef = useRef(null);
   const containerRef = useRef(null);
   
-  // 드래그(슬라이드) 판별용 Refs
   const isDragging = useRef(false);
   const startX = useRef(0);
   const currentTranslate = useRef(0);
-  const dragMoved = useRef(false); // 🔥 진짜 드래그를 했는지 판별하는 변수 (클릭 씹힘 방지)
+  const dragMoved = useRef(false);
 
-  // 🔄 정보 기반 캐릭터 자동 고정 계산
   const characterKey = `${user.university || '국민대'}-${user.role || 'freshman'}`;
   const currentCharacterImg = CHARACTER_IMAGES[characterKey];
 
-  // 📁 시간표 파일 업로드 처리
   const handleSelectFile = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
+    e.stopPropagation();
     fileInputRef.current?.click();
   };
 
@@ -68,27 +75,39 @@ export default function MyPage({ initialUser = dummyUser }) {
     event.target.value = '';
   };
 
-  // 💾 프로필 수정 완료 (저장) 버튼 토글
+  // ★ 관심주제 토글 함수 (회원가입 로직과 동일)
+  const toggleInterest = (item) => {
+    if (editedInterests.includes(item)) {
+      setEditedInterests(editedInterests.filter((v) => v !== item));
+    } else {
+      setEditedInterests([...editedInterests, item]);
+    }
+  };
+
+  // 💾 프로필 수정 완료 (저장)
   const handleEditToggle = () => {
     if (isEditing) {
-      // 저장할 때 데이터 업데이트 (나중에 여기에 API PATCH 요청을 넣으면 됩니다)
+      const hobbiesArray = editedHobbies.split(',').map(item => item.trim()).filter(Boolean);
+
       setUser({
         ...user,
-        name: editedName,
-        department: editedDept,
-        mbti: editedMbti,
+        hobbies: hobbiesArray,
+        interests: editedInterests, // 토글 완료된 배열 저장
       });
+    } else {
+      // 수정 모드로 들어갈 때, 현재 저장된 user 정보를 상태값으로 동기화
+      setEditedHobbies(user.hobbies.join(', '));
+      setEditedInterests(user.interests);
     }
     setIsEditing(!isEditing);
   };
 
-  // 🖱️ 드래그앤드롭 슬라이더 로직 (버그 원천 차단 버전)
   const getPositionX = (event) => {
     return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
   };
 
   const handleDragStart = (e) => {
-    // input창이나 button 내부 요소를 클릭했을 때는 드래그 발동 안 되게 차단
+    // input창이나 관심주제 토글 버튼 내부 요소를 클릭했을 때는 드래그 발동 안 되게 차단
     if (e.target.tagName === 'INPUT' || e.target.closest('button')) return;
     
     isDragging.current = true;
@@ -104,7 +123,6 @@ export default function MyPage({ initialUser = dummyUser }) {
     const currentX = getPositionX(e);
     const diff = currentX - startX.current;
     
-    // 유저가 5픽셀 이상 마우스를 움직였다면 클릭이 아니라 '드래그'로 판별
     if (Math.abs(diff) > 5) {
       dragMoved.current = true;
     }
@@ -125,13 +143,11 @@ export default function MyPage({ initialUser = dummyUser }) {
     const width = containerRef.current?.offsetWidth || 0;
     const movedBy = currentTranslate.current - (-currentPage * (width + 20));
 
-    // 드래그가 크게 일어났을 때만 페이지 전환
     if (dragMoved.current && movedBy < -50 && currentPage === PAGE.PROFILE) {
       setCurrentPage(PAGE.TIMETABLE);
     } else if (dragMoved.current && movedBy > 50 && currentPage === PAGE.TIMETABLE) {
       setCurrentPage(PAGE.PROFILE);
     } else {
-      // 제자리 슬라이드 리셋
       if (containerRef.current) {
         containerRef.current.style.transition = 'transform 0.3s ease-out';
         containerRef.current.style.transform = `translateX(${-currentPage * (width + 20)}px)`;
@@ -149,20 +165,17 @@ export default function MyPage({ initialUser = dummyUser }) {
 
   return (
     <div className={styles.page}>
-      {/* 💾 상단 프로필 수정/저장 바 */}
       <header className={styles.topBar}>
         <button type="button" className={styles.editButton} onClick={handleEditToggle}>
           {isEditing ? '저장 완료' : '프로필 수정'}
         </button>
       </header>
 
-      {/* 인디케이터 */}
       <div className={styles.indicator}>
         <span className={`${styles.dot} ${currentPage === PAGE.PROFILE ? styles.dotActive : ''}`} />
         <span className={`${styles.dot} ${currentPage === PAGE.TIMETABLE ? styles.dotActive : ''}`} />
       </div>
 
-      {/* 전체 슬라이더 뷰포트 영역 */}
       <div 
         className={styles.sliderViewport}
         onTouchStart={handleDragStart}
@@ -178,7 +191,6 @@ export default function MyPage({ initialUser = dummyUser }) {
           {/* CARD 1: 프로필 카드 */}
           <section className={`${styles.card} ${styles.profileCard}`}>
             
-            {/* 🔒 유저 정보를 받아 고정된 캐릭터 영역 */}
             <div className={styles.characterWrap}>
               <div className={styles.characterPlaceholder}>
                 {currentCharacterImg ? (
@@ -190,16 +202,7 @@ export default function MyPage({ initialUser = dummyUser }) {
             </div>
 
             <div className={styles.nameBlock}>
-              {isEditing ? (
-                <input 
-                  type="text" 
-                  className={styles.editInputName} 
-                  value={editedName} 
-                  onChange={(e) => setEditedName(e.target.value)} 
-                />
-              ) : (
-                <h1 className={styles.userName}>{user.name}</h1>
-              )}
+              <h1 className={styles.userName}>{user.name}</h1>
               <p className={styles.userSub}>{user.studentId} {user.role === 'freshman' ? '새내기' : '선배'}</p>
             </div>
 
@@ -207,39 +210,49 @@ export default function MyPage({ initialUser = dummyUser }) {
               <p className={styles.infoTitle}>📌 나의 프로필</p>
               <ul className={styles.infoList}>
                 <li>학교 - {user.university || '국민대'}</li>
-                <li>
-                  학과 - {isEditing ? (
-                    <input 
-                      type="text" 
-                      className={styles.editInputRow} 
-                      value={editedDept} 
-                      onChange={(e) => setEditedDept(e.target.value)} 
-                    />
-                  ) : user.department}
-                </li>
-                <li>
-                  MBTI - {isEditing ? (
-                    <input 
-                      type="text" 
-                      className={styles.editInputRow} 
-                      value={editedMbti} 
-                      onChange={(e) => setEditedMbti(e.target.value)} 
-                    />
-                  ) : user.mbti}
-                </li>
-                <li>취미 - {user.hobbies.join(', ')}</li>
+                <li>학과 - {user.department}</li>
+                <li>MBTI - {user.mbti}</li>
                 <li>나이 - {user.age}</li>
+                <li>
+                  취미 - {isEditing ? (
+                    <input 
+                      type="text" 
+                      className={styles.editInputRow} 
+                      value={editedHobbies} 
+                      onChange={(e) => setEditedHobbies(e.target.value)} 
+                      placeholder="쉼표(,)로 구분해서 입력"
+                    />
+                  ) : user.hobbies.join(', ')}
+                </li>
               </ul>
             </div>
 
+            {/* ★ 관심주제 구역: 수정 모드 돌입 시 회원가입처럼 토글 버튼 제공 */}
             <div className={styles.infoCard}>
               <p className={styles.infoTitle}>📌 관심주제</p>
               <div className={styles.tagRow}>
-                {user.interests.map((interest) => (
-                  <span key={interest} className={styles.tag}>
-                    {interest}
-                  </span>
-                ))}
+                {isEditing ? (
+                  // 수정 모드: 전체 리스트에서 선택된 요소만 오렌지색으로 활성화되는 토글형 버튼
+                  INTEREST_LIST.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      className={`${styles.interestToggleButton} ${
+                        editedInterests.includes(item) ? styles.selected : ""
+                      }`}
+                      onClick={() => toggleInterest(item)}
+                    >
+                      {item}
+                    </button>
+                  ))
+                ) : (
+                  // 일반 모드: 현재 저장된 주제만 태그 뱃지로 깔끔하게 노출
+                  user.interests.map((interest) => (
+                    <span key={interest} className={styles.tag}>
+                      {interest}
+                    </span>
+                  ))
+                )}
               </div>
             </div>
             
@@ -250,7 +263,6 @@ export default function MyPage({ initialUser = dummyUser }) {
           <section className={`${styles.card} ${styles.timetableCard}`}>
             <h2 className={styles.timetableTitle}>2026년 1학기 시간표</h2>
 
-            {/* 🔥 dragMoved 필터링 덕분에 이제 시원시원하게 클릭 작동함 */}
             <button type="button" className={styles.uploadArea} onClick={handleSelectFile}>
               {timetableImage ? (
                 <img src={timetableImage} alt="시간표" className={styles.timetablePreviewImg} />

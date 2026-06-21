@@ -1,72 +1,121 @@
-import { useNavigate } from "react-router-dom";
-import { ChevronLeft } from "lucide-react"; // 뒤로가기 화살표 아이콘
-import BottomNav from "../../components/BottomNav"; // ⭕ 작성자님의 공용 하단바 탑재!
+import { useState } from "react";
+import { X } from "lucide-react"; 
+import BottomNav from "../../components/BottomNav";
 
 function GuidePage() {
-  const navigate = useNavigate();
+  // 💡 모달(팝업) 열림 상태 및 데이터 관리용 State
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState([]);
 
-  // 💡 작성자님 프로젝트의 src/assets/images에 보관 중인 가이드북 이미지 주소
   const images = {
-    guideCharacter: "/src/assets/images/guide_character.png", // 상단 밥알 일러스트
-    guideBg: "/src/assets/images/guide_bg.png",               // 하단 은은한 배경 그래픽
+    guideCharacter: "/src/assets/images/guide_character.png",
+    guideBg: "/src/assets/images/guide_bg.png", 
+  };
+
+  // 💡 카드 클릭 시 팝업에 띄워줄 데이터 정의
+  const guideData = {
+    smalltalk: {
+      title: "스몰토크 주제 10가지",
+      list: [
+        "1. 요즘 듣는 교양 수업 어때요?",
+        "2. 통학하시나요, 자취하시나요?",
+        "3. 가장 가보고 싶었던 교내 맛집이 있나요?",
+        "4. 요즘 꽂힌 취미나 유튜브 채널 공유하기",
+        "5. 전공을 선택하게 된 계기 물어보기",
+        "6. 이번 주말이나 공강 때 뭐 하세요?",
+        "7. MBTI나 성격 유형 이야기로 가볍게 시작!",
+        "8. 요즘 가장 자주 듣는 노래나 플레이리스트",
+        "9. 학교 축제나 동아리 관심 있는 곳 물어보기",
+        "10. 고등학교 때랑 대학교 생활 가장 다른 점은?",
+      ]
+    },
+    etiquette: {
+      title: "밥약 예절 속성 익히기",
+      list: [
+        "1. 약속 시간 5분 전 도착은 기본 매너!",
+        "2. 선배가 사주실 때는 감사 인사를 잊지 말기",
+        "3. 메뉴를 고를 때는 너무 비싸지 않은 선에서 센스 있게",
+        "4. 밥약이 끝난 후 '잘 먹었습니다' 문자 한 통 남기기",
+        "5. 식사 중에는 스마트폰 멀리하고 대화에 집중하기",
+        "6. 음식을 먹을 땐 쩝쩝 소리 내지 않도록 주의하기",
+        "7. 다음 번에는 카페 음료나 가벼운 디저트 보답하기",
+        "8. 선배의 조언을 들을 때는 경청하는 태도 보여주기",
+        "9. 대화 주제가 너무 사적이거나 무겁지 않게 조절하기",
+        "10. 약속을 잡을 때는 선배의 공강 시간을 먼저 배려하기",
+      ]
+    }
+  };
+
+  const openGuide = (type) => {
+    setModalTitle(guideData[type].title);
+    setModalContent(guideData[type].list);
+    setModalOpen(true);
   };
 
   return (
-    <div className="mobile-page guide-page" style={{ background: "#F9F9F9", minHeight: "100vh", position: "relative" }}>
+    <div 
+      className="mobile-page guide-page" 
+      style={{ 
+        background: "#dfdfdf", 
+        minHeight: "100vh", 
+        maxWidth: "430px",       
+        margin: "0 auto",        
+        position: "relative", 
+        fontFamily: "'Pretendard', -apple-system, sans-serif",
+        overflowX: "hidden",     
+        boxSizing: "border-box"
+      }}
+    >
       
-      {/* 1. 상단 헤더 (뒤로가기 + 타이틀) */}
-      <header className="chat-top" style={{ display: "flex", alignItems: "center", padding: "16px", borderBottom: "none", background: "transparent" }}>
-        <button 
-          type="button" 
-          onClick={() => navigate(-1)} 
-          style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: 0 }}
-        >
-          <ChevronLeft size={28} color="#333" />
-        </button>
-        <h1 style={{ fontSize: "20px", fontWeight: "bold", marginLeft: "8px", color: "#333" }}>
+      {/* 1. 상단 타이틀 & 서브타이틀 영역 (★ 폰트 크기 30px로 확대 및 좌측 여백 넓혀 자연스럽게 조정) */}
+      <header className="guide-header" style={{ padding: "36px 38px 0 42px", background: "transparent" }}>
+        <h1 style={{ fontSize: "30px", fontWeight: "800", color: "#333", margin: 0, letterSpacing: "-0.5px", lineHeight: "1.2" }}>
           밥약 가이드 북
         </h1>
-      </header>
-
-      {/* 2. 메인 콘텐츠 영역 */}
-      <div className="guide-body" style={{ padding: "0 20px", paddingBottom: "120px" }}>
-        <p className="guide-subtitle" style={{ color: "#888", fontSize: "14px", margin: "4px 0 24px 0" }}>
+        <p className="guide-subtitle" style={{ color: "#666", fontSize: "16px", margin: "8px 0 0 0", fontWeight: "500" }}>
           새내기 밥약 꿀팁 주목!
         </p>
+      </header>
 
-        {/* 밥알 캐릭터 배치 구역 */}
-        <div className="guide-character-wrap" style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
+      {/* 2. 메인 콘텐츠 영역 (상단 타이틀과 맞추기 위해 카드 디자인 좌우 여백 유지) */}
+      <div className="guide-body" style={{ padding: "24px 24px 140px 24px", position: "relative", zIndex: 1 }}>
+
+        {/* 캐릭터 배치 구역 */}
+        <div className="guide-character-wrap" style={{ display: "flex", justifyContent: "center",  marginBottom: "28px" }}>
           <img 
             src={images.guideCharacter} 
             alt="신입생 밥약 가이드 일러스트" 
-            style={{ width: "70%", maxWidth: "220px", height: "auto" }}
-            onError={(e) => {
-              // 아직 폴더에 이미지가 없다면 엑박 뜨는 대신 임시로 귀여운 이모지로 대체
-              e.target.style.display = "none";
-            }}
+            style={{ width: "75%", maxWidth: "240px", height: "auto" }}
+            onError={(e) => { e.target.style.display = "none"; }}
           />
         </div>
 
-        {/* 꿀팁 카드 리스트 뭉치 */}
-        <div className="guide-card-list" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        {/* 꿀팁 카드 리스트 */}
+        <div className="guide-card-list" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           
           {/* 카드 1: 스몰토크 */}
           <div 
             className="guide-card" 
+            onClick={() => openGuide("smalltalk")}
             style={{
               background: "#ffffff",
-              borderRadius: "16px",
-              padding: "20px 24px",
-              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)",
+              borderRadius: "20px",
+              padding: "32px 24px",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.06)",
               display: "flex",
               alignItems: "center",
-              gap: "16px",
+              position: "relative",
               cursor: "pointer",
-              transition: "transform 0.2s"
             }}
           >
-            <span style={{ fontSize: "24px", color: "#FFA826" }}>🔖</span>
-            <div style={{ fontWeight: "600", color: "#333", fontSize: "15px", lineHeight: "1.4" }}>
+            <div style={{
+              position: "absolute", left: "24px", top: 0,
+              width: "18px", height: "28px",
+              background: "#FFB834",
+              clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%)"
+            }} />
+            <div style={{ fontWeight: "700", color: "#333", fontSize: "16px", lineHeight: "1.5", marginLeft: "28px" }}>
               더이상 침묵은 그만!<br />스몰토크 주제 10가지
             </div>
           </div>
@@ -74,20 +123,25 @@ function GuidePage() {
           {/* 카드 2: 밥약 예절 */}
           <div 
             className="guide-card" 
+            onClick={() => openGuide("etiquette")}
             style={{
               background: "#ffffff",
-              borderRadius: "16px",
-              padding: "20px 24px",
-              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)",
+              borderRadius: "20px",
+              padding: "32px 24px",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.06)",
               display: "flex",
               alignItems: "center",
-              gap: "16px",
+              position: "relative",
               cursor: "pointer",
-              transition: "transform 0.2s"
             }}
           >
-            <span style={{ fontSize: "24px", color: "#FFA826" }}>🔖</span>
-            <div style={{ fontWeight: "600", color: "#333", fontSize: "15px", lineHeight: "1.4" }}>
+            <div style={{
+              position: "absolute", left: "24px", top: 0,
+              width: "18px", height: "28px",
+              background: "#FFB834",
+              clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%)"
+            }} />
+            <div style={{ fontWeight: "700", color: "#333", fontSize: "16px", lineHeight: "1.5", marginLeft: "28px" }}>
               밥약 예절 속성 익히기
             </div>
           </div>
@@ -95,7 +149,44 @@ function GuidePage() {
         </div>
       </div>
 
-      {/* 3. 공용 하단 네비게이션 배치 */}
+      {/* 3. 은은한 하단 배경 일러스트 */}
+      <div style={{ position: "absolute", bottom: "80px", left: 0, width: "100%", zIndex: 0, pointerEvents: "none", opacity: 0.8 }}>
+        <img src={images.guideBg} style={{ width: "100%", height: "auto" }} onError={(e) => e.target.style.display="none"} />
+      </div>
+
+      {/* 4. 10계명 바텀 시트 모달 팝업창 */}
+      {modalOpen && (
+        <div style={{
+          position: "fixed", top: 0, left: "50%", transform: "translateX(-50%)", 
+          width: "100%", maxWidth: "430px", height: "100%",
+          background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "flex-end", zIndex: 999
+        }}>
+          <div style={{
+            background: "#fff", width: "100%", borderTopLeftRadius: "24px", borderTopRightRadius: "24px",
+            padding: "24px", maxHeight: "80vh", overflowY: "auto", boxSizing: "border-box"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "18px", fontWeight: "bold", color: "#333", margin: 0 }}>{modalTitle}</h2>
+              <button onClick={() => setModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+                <X size={24} color="#666" />
+              </button>
+            </div>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px", paddingBottom: "20px" }}>
+              {modalContent.map((item, index) => (
+                <div key={index} style={{
+                  background: "#F9F9F9", padding: "14px 16px", borderRadius: "12px",
+                  fontSize: "14px", color: "#444", fontWeight: "500", lineHeight: "1.4"
+                }}>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. 공용 하단 네비게이션 */}
       <BottomNav />
     </div>
   );
