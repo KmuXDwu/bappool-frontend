@@ -141,7 +141,7 @@ function ChatPage() {
         <button
           className="chat-exit-btn"
           type="button"
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleConfirmExit}
         >
           대화 종료
         </button>

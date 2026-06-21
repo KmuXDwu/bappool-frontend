@@ -7,12 +7,6 @@ const rows = [
 function FakeKeyboard() {
   return (
     <div className="fake-keyboard" aria-hidden="true">
-      <div className="suggestions">
-        <span>나</span>
-        <span>아</span>
-        <span>나는</span>
-      </div>
-
       {rows.map((row) => (
         <div className="key-row" key={row.join("")}>
           {row.map((key) => (
@@ -26,8 +20,14 @@ function FakeKeyboard() {
       <div className="key-row command-row">
         <span>123</span>
         <span>☻</span>
-        <span className="space-key">스페이스</span>
-        <span>↵</span>
+        <span className="space-key">한</span>
+        <span>↩</span>
+      </div>
+
+      <div className="key-row utility-row">
+        <span>◎</span>
+        <span>◌</span>
+        <span>🎙</span>
       </div>
     </div>
   );
