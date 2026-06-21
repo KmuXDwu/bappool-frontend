@@ -46,9 +46,7 @@ function BottomNav({ images }) {
       </button>
 
       <img
-        className={`bottom-nav-icon ${
-          currentPath === "/matching" ? "active" : ""
-        }`}
+        className={`bottom-nav-icon ${currentPath === "/matching" ? "active" : ""}`}
         src={safeImages.navFind}
         alt="밥약 잡기"
         onClick={() => navigate("/matching")}
