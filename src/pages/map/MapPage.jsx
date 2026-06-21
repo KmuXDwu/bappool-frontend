@@ -6,8 +6,8 @@ import styles from "./MapPage.module.css";
 function MapPage() {
   const navigate = useNavigate();
 
-  // 💡 이미지 넣는 팁: public/images/ 폴더에 시안 속 지도 캡처본을 저장해 두면 임시 UI로 완벽해!
-  const mapPreviewImg = "/images/map_preview.png"; 
+  // 💡 아래 URL의 'seoul' 부분에 원하는 기본 검색어나 위치를 넣어서 활용할 수 있습니다.
+  const naverMapEmbedUrl = "https://map.naver.com/v5/search/seoul";
 
   return (
     <div className={styles.container}>
@@ -34,18 +34,17 @@ function MapPage() {
         <Heart size={20} color="#555" />
       </button>
 
-      {/* 3. 지도 렌더링 구역 (여기에 나중에 API가 들어갈 거야) */}
+      {/* 3. 지도 렌더링 구역 (앱/웹 내에 네이버 지도 고정) */}
       <div id="map" className={styles.mapContainer}>
-        {/* API 연동 전까지 임시로 보여줄 지도 배경 이미지 */}
-        <img 
-          src={mapPreviewImg} 
-          alt="지도 임시 배경" 
-          className={styles.mapPreview}
-          onError={(e) => {
-            // 이미지 파일이 아직 없을 경우 개발하기 편하게 회색 배경 처리
-            e.target.style.display = "none";
-          }}
-        />
+        <iframe
+          src={naverMapEmbedUrl}
+          title="네이버 지도"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+        ></iframe>
       </div>
 
       {/* 4. 공용 하단 네비게이션 */}

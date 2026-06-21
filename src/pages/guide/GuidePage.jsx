@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ChevronLeft, X } from "lucide-react"; // X 아이콘 추가
+import { X } from "lucide-react"; 
 import BottomNav from "../../components/BottomNav";
 
 function GuidePage() {
-  const navigate = useNavigate();
-
   // 💡 모달(팝업) 열림 상태 및 데이터 관리용 State
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
@@ -50,7 +47,6 @@ function GuidePage() {
     }
   };
 
-  // 카드를 누르면 실행되는 함수
   const openGuide = (type) => {
     setModalTitle(guideData[type].title);
     setModalContent(guideData[type].list);
@@ -58,30 +54,35 @@ function GuidePage() {
   };
 
   return (
-    <div className="mobile-page guide-page" style={{ background: "#F4F4F4", minHeight: "100vh", position: "relative", fontFamily: "sans-serif" }}>
+    <div 
+      className="mobile-page guide-page" 
+      style={{ 
+        background: "#dfdfdf", 
+        minHeight: "100vh", 
+        maxWidth: "430px",       
+        margin: "0 auto",        
+        position: "relative", 
+        fontFamily: "'Pretendard', -apple-system, sans-serif",
+        overflowX: "hidden",     
+        boxSizing: "border-box"
+      }}
+    >
       
-      {/* 1. 상단 헤더 */}
-      <header className="chat-top" style={{ display: "flex", alignItems: "center", padding: "16px", background: "transparent" }}>
-        <button 
-          type="button" 
-          onClick={() => navigate(-1)} 
-          style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: 0 }}
-        >
-          <ChevronLeft size={28} color="#333" />
-        </button>
-        <h1 style={{ fontSize: "22px", fontWeight: "bold", marginLeft: "8px", color: "#333" }}>
+      {/* 1. 상단 타이틀 & 서브타이틀 영역 (★ 폰트 크기 30px로 확대 및 좌측 여백 넓혀 자연스럽게 조정) */}
+      <header className="guide-header" style={{ padding: "36px 38px 0 42px", background: "transparent" }}>
+        <h1 style={{ fontSize: "30px", fontWeight: "800", color: "#333", margin: 0, letterSpacing: "-0.5px", lineHeight: "1.2" }}>
           밥약 가이드 북
         </h1>
-      </header>
-
-      {/* 2. 메인 콘텐츠 영역 */}
-      <div className="guide-body" style={{ padding: "0 24px", paddingBottom: "120px" }}>
-        <p className="guide-subtitle" style={{ color: "#666", fontSize: "15px", margin: "4px 0 24px 0", fontWeight: "500" }}>
+        <p className="guide-subtitle" style={{ color: "#666", fontSize: "16px", margin: "8px 0 0 0", fontWeight: "500" }}>
           새내기 밥약 꿀팁 주목!
         </p>
+      </header>
+
+      {/* 2. 메인 콘텐츠 영역 (상단 타이틀과 맞추기 위해 카드 디자인 좌우 여백 유지) */}
+      <div className="guide-body" style={{ padding: "24px 24px 140px 24px", position: "relative", zIndex: 1 }}>
 
         {/* 캐릭터 배치 구역 */}
-        <div className="guide-character-wrap" style={{ display: "flex", justifyContent: "center", marginBottom: "24px" }}>
+        <div className="guide-character-wrap" style={{ display: "flex", justifyContent: "center",  marginBottom: "28px" }}>
           <img 
             src={images.guideCharacter} 
             alt="신입생 밥약 가이드 일러스트" 
@@ -108,7 +109,6 @@ function GuidePage() {
               cursor: "pointer",
             }}
           >
-            {/* 디자인 시안 속 북마크 리본 구현 */}
             <div style={{
               position: "absolute", left: "24px", top: 0,
               width: "18px", height: "28px",
@@ -135,7 +135,6 @@ function GuidePage() {
               cursor: "pointer",
             }}
           >
-            {/* 북마크 리본 */}
             <div style={{
               position: "absolute", left: "24px", top: 0,
               width: "18px", height: "28px",
@@ -150,25 +149,25 @@ function GuidePage() {
         </div>
       </div>
 
-      {/* 3. 은은한 하단 배경 일러스트 (디자인 시안 하단 밥알들) */}
+      {/* 3. 은은한 하단 배경 일러스트 */}
       <div style={{ position: "absolute", bottom: "80px", left: 0, width: "100%", zIndex: 0, pointerEvents: "none", opacity: 0.8 }}>
         <img src={images.guideBg} style={{ width: "100%", height: "auto" }} onError={(e) => e.target.style.display="none"} />
       </div>
 
-      {/* 4. 10계명 모달 팝업창 창 구현 */}
+      {/* 4. 10계명 바텀 시트 모달 팝업창 */}
       {modalOpen && (
         <div style={{
-          position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
+          position: "fixed", top: 0, left: "50%", transform: "translateX(-50%)", 
+          width: "100%", maxWidth: "430px", height: "100%",
           background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "flex-end", zIndex: 999
         }}>
-          {/* 하단에서 슥 올라오는 느낌의 바텀 시트 스타일 */}
           <div style={{
             background: "#fff", width: "100%", borderTopLeftRadius: "24px", borderTopRightRadius: "24px",
             padding: "24px", maxHeight: "80vh", overflowY: "auto", boxSizing: "border-box"
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}>{modalTitle}</h2>
-              <button onClick={() => setModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer" }}>
+              <h2 style={{ fontSize: "18px", fontWeight: "bold", color: "#333", margin: 0 }}>{modalTitle}</h2>
+              <button onClick={() => setModalOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                 <X size={24} color="#666" />
               </button>
             </div>
