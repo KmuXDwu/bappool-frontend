@@ -1,6 +1,6 @@
 .container {
   position: relative;
-  max-width: 430px;
+  max-width: 393px;
   height: 100vh;
   margin: 0 auto;
   background: #E5E5E5; /* 지도 로딩 전 기본 회색 배경 */

@@ -18,11 +18,11 @@ function LoginPage() {
   };
 
   const handleVerifyCode = () => {
-    if (code.length === 6) {
+    if (code.length === 4) {
       // 인증 성공 시 마이페이지로 이동!
       navigate('/mypage');
     } else {
-      alert("인증번호 6자리를 올바르게 입력해주세요.");
+      alert("인증번호 4자리를 올바르게 입력해주세요.");
     }
   };
 
@@ -112,8 +112,8 @@ function LoginPage() {
                   <input
                     className={styles.input}
                     type="text"
-                    maxLength={6}
-                    placeholder="인증번호 6자리 입력"
+                    maxLength={4}
+                    placeholder="인증번호 4자리 입력"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                   />
@@ -121,7 +121,7 @@ function LoginPage() {
                 <button
                   className={styles.submitButton}
                   onClick={handleVerifyCode}
-                  disabled={code.length !== 6}
+                  disabled={code.length !== 4}
                 >
                   인증 및 로그인
                 </button>

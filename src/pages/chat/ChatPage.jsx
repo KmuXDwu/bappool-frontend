@@ -1,39 +1,157 @@
-import { useState } from "react";
-import { Hash, Plus, Smile } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import BackButton from "../../components/BackButton";
-import FakeKeyboard from "../../components/FakeKeyboard";
+const DEFAULT_PARTNER = {
+  id: "default",
+  name: "채팅방",
+  maskedName: "채팅방",
+  image: "/src/assets/images/kmu_senior.png",
+};
 
-function ChatPage({ partner, images, onBack }) {
-  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+function ChatPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const inputRef = useRef(null);
+
+  const partner = location.state?.partner || DEFAULT_PARTNER;
+  const partnerName = partner.maskedName || partner.name || "채팅방";
+  const profileImage = partner.image || DEFAULT_PARTNER.image;
+  const riceBackground = "/src/assets/images/bap_back.svg";
+
+  const roomStorageKey = useMemo(
+    () => `bappul-chat-room-${partner.id || partnerName}`,
+    [partner.id, partnerName],
+  );
+
+  const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem(roomStorageKey);
+
+    if (savedMessages) {
+      try {
+        return JSON.parse(savedMessages);
+      } catch {
+        localStorage.removeItem(roomStorageKey);
+      }
+    }
+
+    return [
+      {
+        id: "system-created",
+        type: "system",
+        text: `${partnerName}님과의 밥약 채팅방이 생성되었습니다.`,
+      },
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(roomStorageKey, JSON.stringify(messages));
+  }, [messages, roomStorageKey]);
+
+  const handleFocusInput = () => {
+    inputRef.current?.focus();
+  };
+
+  const handleCloseKeyboard = () => {
+    inputRef.current?.blur();
+  };
+
+  const handleSendText = () => {
+    const nextMessage = inputValue.trim();
+
+    if (!nextMessage) return;
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        id: Date.now(),
+        type: "right",
+        text: nextMessage,
+      },
+    ]);
+
+    setInputValue("");
+  };
 
   return (
-    <div className={isKeyboardOpen ? "chat-page keyboard-open" : "chat-page"}>
-      <header className="chat-top">
-        <BackButton onClick={onBack} className="chat-back-button" />
-        <h1>{partner.fullName}</h1>
+    <main className="chat-page">
+      <header className="chat-header">
+        <button
+          className="chat-back"
+          type="button"
+          onClick={() => navigate(-1)}
+          aria-label="뒤로가기"
+        >
+          ←
+        </button>
+        <h1>{partnerName}</h1>
       </header>
 
-      <div
-        className="chat-body empty-chat-body"
-        onClick={() => setIsKeyboardOpen(false)}
+      <section
+        className="chat-room"
+        style={{ backgroundImage: `url(${riceBackground})` }}
+        onClick={handleCloseKeyboard}
       >
-        <img className="chat-rice-back" src={images.chatRiceBack} alt="" />
-      </div>
+        <div className="chat-messages">
+          {messages.map((message) => {
+            if (message.type === "system") {
+              return (
+                <p className="chat-system-text" key={message.id}>
+                  -{message.text}-
+                </p>
+              );
+            }
 
-      <button
-        className="chat-input-row"
-        type="button"
-        onClick={() => setIsKeyboardOpen(true)}
-      >
-        <Plus size={23} />
-        <span>메시지 입력</span>
-        <Smile size={22} />
-        <Hash size={19} />
-      </button>
+            return (
+              <div
+                className={`chat-message-row ${message.type}`}
+                key={message.id}
+              >
+                {message.type === "left" && (
+                  <img className="chat-avatar" src={profileImage} alt="" />
+                )}
 
-      {isKeyboardOpen && <FakeKeyboard />}
-    </div>
+                <p
+                  className={`chat-bubble ${
+                    message.type === "left" ? "orange" : "gray"
+                  }`}
+                >
+                  {message.text}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="chat-input-area">
+        <div className="chat-input-bar" onClick={handleFocusInput}>
+          <button type="button" className="chat-plus" aria-label="추가">
+            +
+          </button>
+
+          <input
+            ref={inputRef}
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            placeholder="메시지 입력"
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleSendText();
+              }
+            }}
+          />
+
+          <button type="button" className="chat-face" aria-label="이모지">
+            ☻
+          </button>
+
+          <button type="button" className="chat-send" onClick={handleSendText}>
+            {inputValue.trim() ? "전송" : "#"}
+          </button>
+        </div>
+      </section>
+    </main>
   );
 }
 
