@@ -8,6 +8,8 @@ const DEFAULT_PARTNER = {
   image: "/src/assets/images/kmu_senior.png",
 };
 
+const CURRENT_USER_ROLE = "freshman";
+
 function createInitialMessages(partnerName) {
   return [
     {
@@ -35,6 +37,7 @@ function ChatPage() {
 
   const [inputValue, setInputValue] = useState("");
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem(roomStorageKey);
 
@@ -110,6 +113,17 @@ function ChatPage() {
     });
   };
 
+  const handleConfirmExit = () => {
+    setIsModalOpen(false);
+
+    if (CURRENT_USER_ROLE === "senior") {
+      navigate("/mypage");
+      return;
+    }
+
+    navigate("/rating", { state: { partner } });
+  };
+
   return (
     <main className="chat-page">
       <header className="chat-header">
@@ -121,7 +135,16 @@ function ChatPage() {
         >
           ‹
         </button>
+
         <h1>{partnerName}</h1>
+
+        <button
+          className="chat-exit-btn"
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+        >
+          대화 종료
+        </button>
       </header>
 
       <section
@@ -230,6 +253,23 @@ function ChatPage() {
               </button>
             </div>
           </section>
+        </div>
+      )}
+
+      {isModalOpen && (
+        <div className="custom-modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="custom-modal-content" onClick={(event) => event.stopPropagation()}>
+            <h3>대화 종료</h3>
+            <p>정말 밥약 대화를 종료하시겠습니까?</p>
+            <div className="custom-modal-buttons">
+              <button className="modal-btn-cancel" type="button" onClick={() => setIsModalOpen(false)}>
+                취소
+              </button>
+              <button className="modal-btn-confirm" type="button" onClick={handleConfirmExit}>
+                확인
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </main>
