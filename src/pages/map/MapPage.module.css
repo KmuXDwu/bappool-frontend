@@ -1,90 +1,90 @@
 .container {
-  position: relative;
-  max-width: 393px;
-  height: 100vh;
-  margin: 0 auto;
-  background: #E5E5E5; /* 지도 로딩 전 기본 회색 배경 */
-  overflow: hidden;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f1f1f;
   box-sizing: border-box;
 }
 
-/* 1. 상단 검색창 레이아웃 */
-.searchBarWrap {
-  position: absolute;
-  top: 16px;
-  left: 0;
-  width: 100%;
-  padding: 0 16px;
+.phoneFrame {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 2px solid #787878;
+  background: #ffe3b0;
   box-sizing: border-box;
-  z-index: 10; /* 지도보다 무조건 위에 뜨게 설정 */
+}
+
+.mapImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .searchBar {
+  position: absolute;
+  top: 82px;
+  left: 22px;
+  right: 22px;
+  z-index: 4;
   display: flex;
   align-items: center;
+  height: 56px;
+  padding: 0 18px;
+  border-radius: 18px;
   background: #ffffff;
-  border-radius: 24px;
-  padding: 8px 16px;
-  height: 48px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  color: #4b4b4b;
   box-sizing: border-box;
 }
 
-.searchInput {
+.menuIcon {
+  font-size: 27px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.searchText {
   flex: 1;
-  border: none;
-  outline: none;
-  margin: 0 12px;
-  font-size: 16px;
+  margin-left: 18px;
+  font-size: 22px;
   font-weight: 500;
-  color: #333;
+  letter-spacing: 0;
 }
 
-.searchInput::placeholder {
-  color: #999;
+.targetIcon {
+  font-size: 28px;
+  line-height: 1;
+  color: #5d5d5d;
 }
 
-.iconButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.phoneFrame :global(.bottom-nav) {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  transform: none !important;
+  z-index: 5 !important;
 }
 
-/* 2. 우측 상단 플로팅 하트 버튼 */
-.heartButton {
-  position: absolute;
-  top: 80px; /* 검색바 아래쪽에 배치 */
-  right: 16px;
-  width: 40px;
-  height: 40px;
-  background: #ffffff;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-}
+@media (max-width: 430px) {
+  .container {
+    align-items: flex-start;
+    background: #ffffff;
+  }
 
-/* 3. 지도 영역 설정 (전체 화면 차지) */
-.mapContainer {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-/* 임시 지도 배경 이미지 채우기 */
-.mapPreview {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 화면에 꽉 차게 비율 유지 */
+  .phoneFrame {
+    width: 100vw;
+    max-width: 393px;
+    height: 100vh;
+    min-height: 852px;
+    border: 0;
+    border-radius: 0;
+  }
 }

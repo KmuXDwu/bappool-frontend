@@ -47,8 +47,9 @@
 .sliderViewport {
   width: 100%;
   padding: 0 20px;
-  overflow: visible;
+  overflow: hidden;
   cursor: grab;
+  box-sizing: border-box;
 }
 
 .sliderTrack {
@@ -74,6 +75,7 @@
   position: relative;
   overflow: hidden;
   user-select: none;
+  box-sizing: border-box;
 }
 
 /* ?꾨줈???섏젙 紐⑤뱶 ?명뭼 ?ㅽ???*/

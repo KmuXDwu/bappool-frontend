@@ -1372,6 +1372,344 @@ body {
 }
 
 /* =========================
+   Rating / Thanks / Report
+========================= */
+
+.rating-page,
+.thanks-page,
+.report-page {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 181, 67, 0.45) 0 155px, transparent 238px),
+    linear-gradient(180deg, #ffe2ad 0%, #fff9f2 74%, #ffffff 100%) !important;
+  color: #3d3d3d;
+  padding: 0 32px;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.rating-page .back-button,
+.thanks-page .back-button,
+.report-page .back-button {
+  left: 28px !important;
+  top: 62px !important;
+}
+
+.rating-page h1 {
+  margin: 92px 0 0;
+  text-align: center;
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.rating-options {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 28px;
+  margin-top: 168px;
+}
+
+.rating-option {
+  width: 132px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #3d3d3d;
+  cursor: pointer;
+}
+
+.rating-option .character-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f7f7f7;
+  border: 3px solid #ffffff;
+  box-sizing: border-box;
+}
+
+.rating-option .character-image img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.rating-option .satisfied-ring {
+  background: #ffb33f;
+}
+
+.rating-option .sad-ring {
+  background: #4d4d4d;
+}
+
+.rating-option span {
+  display: block;
+  margin-top: 24px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.rating-page.is-selected .rating-options {
+  margin-top: 120px;
+}
+
+.rating-page.is-selected .rating-option {
+  width: 190px;
+}
+
+.rating-page.is-selected .rating-option .character-image {
+  width: 190px;
+  height: 190px;
+  border-width: 5px;
+}
+
+.rating-page.is-selected .rating-option .character-image img {
+  width: 220px;
+  height: 220px;
+}
+
+.rating-page.is-selected .rating-option.selected.satisfied .character-image {
+  border-color: #f5c400;
+  background: #ffb33f;
+}
+
+.rating-page.is-selected .rating-option.selected.sad .character-image {
+  border-color: #ff9f8b;
+  background: #303030;
+}
+
+.rating-page.is-selected .rating-option span {
+  margin-top: 32px;
+  font-size: 22px;
+}
+
+.rating-next-button {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 50px;
+  height: 58px;
+  border: 0;
+  border-radius: 14px;
+  background: #ffb548;
+  color: #000000;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.thanks-page {
+  text-align: center;
+  overflow: hidden !important;
+}
+
+.thanks-page::before,
+.thanks-page::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 390px;
+  height: 190px;
+  border-radius: 50%;
+  background: #ffb548;
+  filter: blur(14px);
+  transform: translateX(-50%);
+  opacity: 0.95;
+  z-index: 0;
+}
+
+.thanks-page::before {
+  top: -54px;
+}
+
+.thanks-page::after {
+  bottom: 104px;
+}
+
+.thanks-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.thanks-page h1 {
+  margin: 70px 0 42px;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.thanks-page p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #000000;
+}
+
+.thanks-character {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 44px auto 0;
+  width: 210px;
+  height: 280px;
+}
+
+.thanks-character img {
+  width: 250px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.white-button {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 92px;
+  height: 62px;
+  border: 0;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+
+.report-page {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(0, 0, 0, 0.42) 0 150px, transparent 238px),
+    radial-gradient(circle at 50% 62%, rgba(0, 0, 0, 0.34) 0 154px, transparent 245px),
+    linear-gradient(180deg, #e5e5e5 0%, #f8f8f8 55%, #d9dde4 100%) !important;
+  padding: 0 28px;
+}
+
+.report-page h1 {
+  margin: 82px 0 62px;
+  text-align: center;
+  color: #4a4a4a;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.report-box {
+  display: block;
+  width: 100%;
+  height: 342px;
+  padding: 24px 24px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 9px;
+  background: rgba(120, 120, 120, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.28);
+  box-sizing: border-box;
+  cursor: text;
+}
+
+.report-box span {
+  display: block;
+  margin-bottom: 22px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.report-box textarea {
+  width: 100%;
+  height: 238px;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.report-box.has-text textarea {
+  height: 100%;
+}
+
+.report-submit {
+  display: none;
+}
+
+.report-page .fake-keyboard {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 212px;
+  padding: 10px 8px 12px;
+  background: #d9dce2;
+  box-sizing: border-box;
+}
+
+.fake-keyboard .key-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.fake-keyboard .key-row span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 35px;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.16);
+}
+
+.fake-keyboard .key-row .wide-key {
+  width: 42px;
+  background: #f8f9fb;
+}
+
+.fake-keyboard .command-row {
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.fake-keyboard .command-row span {
+  width: 38px;
+  height: 36px;
+  font-size: 15px;
+}
+
+.fake-keyboard .command-row .space-key {
+  flex: 1;
+  margin: 0 4px;
+  color: #c5c5c5;
+  font-size: 12px;
+}
+
+.fake-keyboard .utility-row {
+  justify-content: space-between;
+  margin: 6px 22px 0;
+}
+
+.fake-keyboard .utility-row span {
+  width: 38px;
+  background: transparent;
+  box-shadow: none;
+  font-size: 24px;
+}
+
+/* =========================
    Global Back Button
 ========================= */
 
@@ -1441,7 +1779,9 @@ body {
   font-size: 38px;
   font-weight: 500;
   line-height: 1.17;
-  margin: 73px 0 0 113px;
+  width: 100%;
+  margin: 73px 0 0;
+  text-align: center;
 }
 
 .rating-options {
